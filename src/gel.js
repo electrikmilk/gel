@@ -181,6 +181,20 @@ class Gel {
     this.#rafId = requestAnimationFrame(this.#animationLoop)
   }
 
+  press() {
+    this.#squishY.setTarget(0.88)
+    this.#startLoop()
+  }
+
+  release() {
+    this.#squishY.setTarget(1)
+    this.#startLoop()
+  }
+
+  static getInstance(el) {
+    return Gel.#instances.get(el) ?? null
+  }
+
   destroy() {
     if (this.#rafId !== null) cancelAnimationFrame(this.#rafId)
     const el = this.#el
@@ -219,16 +233,19 @@ class GelSlider {
   #trackEl
   #fillEl
   #positionerEl
+  #thumbEl
   #min
   #max
   #value
   #isDragging = false
+  #isKeyboardPressed = false
 
   constructor(el) {
     this.#el = el
     this.#trackEl = el.querySelector('.gel-slider__track')
     this.#fillEl = el.querySelector('.gel-slider__fill')
     this.#positionerEl = el.querySelector('.gel-slider__thumb-positioner')
+    this.#thumbEl = el.querySelector('.gel-slider__thumb')
     this.#min = parseFloat(el.getAttribute('aria-valuemin') ?? '0')
     this.#max = parseFloat(el.getAttribute('aria-valuemax') ?? '100')
     this.#value = parseFloat(el.getAttribute('aria-valuenow') ?? '50')
@@ -255,10 +272,10 @@ class GelSlider {
   }
 
   #attachListeners() {
-    const thumbEl = this.#el.querySelector('.gel-slider__thumb')
-    thumbEl.addEventListener('pointerdown', this.#onThumbPointerDown)
+    this.#thumbEl.addEventListener('pointerdown', this.#onThumbPointerDown)
     this.#trackEl.addEventListener('pointerdown', this.#onTrackPointerDown)
     this.#el.addEventListener('keydown', this.#onKeyDown)
+    this.#el.addEventListener('keyup', this.#onKeyUp)
   }
 
   #onTrackPointerDown = (event) => {
@@ -267,13 +284,12 @@ class GelSlider {
     this.#el.focus()
   }
 
+  // No preventDefault — allows mousedown/touchstart to propagate so Gel spring physics sees the press.
   #onThumbPointerDown = (event) => {
-    event.preventDefault()
     this.#isDragging = true
-    const thumbEl = event.currentTarget
-    thumbEl.setPointerCapture(event.pointerId)
-    thumbEl.addEventListener('pointermove', this.#onThumbPointerMove)
-    thumbEl.addEventListener('pointerup', this.#onThumbPointerUp)
+    this.#thumbEl.setPointerCapture(event.pointerId)
+    this.#thumbEl.addEventListener('pointermove', this.#onThumbPointerMove)
+    this.#thumbEl.addEventListener('pointerup', this.#onThumbPointerUp)
   }
 
   #onThumbPointerMove = (event) => {
@@ -281,11 +297,10 @@ class GelSlider {
     this.#setValueFromClientX(event.clientX)
   }
 
-  #onThumbPointerUp = (event) => {
+  #onThumbPointerUp = () => {
     this.#isDragging = false
-    const thumbEl = event.currentTarget
-    thumbEl.removeEventListener('pointermove', this.#onThumbPointerMove)
-    thumbEl.removeEventListener('pointerup', this.#onThumbPointerUp)
+    this.#thumbEl.removeEventListener('pointermove', this.#onThumbPointerMove)
+    this.#thumbEl.removeEventListener('pointerup', this.#onThumbPointerUp)
   }
 
   #onKeyDown = (event) => {
@@ -303,6 +318,17 @@ class GelSlider {
     event.preventDefault()
     action()
     this.#render()
+    if (!this.#isKeyboardPressed) {
+      this.#isKeyboardPressed = true
+      Gel.getInstance(this.#thumbEl)?.press()
+    }
+  }
+
+  #onKeyUp = (event) => {
+    const sliderKeys = ['ArrowRight', 'ArrowUp', 'ArrowLeft', 'ArrowDown', 'Home', 'End']
+    if (!sliderKeys.includes(event.key) || !this.#isKeyboardPressed) return
+    this.#isKeyboardPressed = false
+    Gel.getInstance(this.#thumbEl)?.release()
   }
 
   static initAll(root = document) {
