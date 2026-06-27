@@ -93,7 +93,7 @@
             to bottom,
             hsl(var(--gel-hue) var(--gel-saturation) 80% / 0.60) 0%,
             hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness) / 0.90) 52%,
-            hsl(var(--gel-hue) var(--gel-saturation) 82% / 0.55) 100%
+            hsl(var(--gel-hue) var(--gel-saturation) 68% / 0.68) 100%
     ) padding-box,
     linear-gradient(
             to bottom,
@@ -197,7 +197,7 @@
             to bottom,
             hsl(var(--gel-hue) var(--gel-saturation) 80% / 0.45) 0%,
             hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness) / 0.70) 52%,
-            hsl(var(--gel-hue) var(--gel-saturation) 82% / 0.38) 100%
+            hsl(var(--gel-hue) var(--gel-saturation) 68% / 0.50) 100%
     ) padding-box,
     linear-gradient(
             to bottom,
@@ -337,7 +337,7 @@
             to bottom,
             hsl(var(--gel-hue) var(--gel-saturation) 80% / 0.58) 0%,
             hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness) / 0.92) 52%,
-            hsl(var(--gel-hue) var(--gel-saturation) 82% / 0.55) 100%
+            hsl(var(--gel-hue) var(--gel-saturation) 68% / 0.68) 100%
     );
 
     box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.55),
@@ -465,7 +465,7 @@
             to bottom,
             hsl(var(--gel-hue) var(--gel-saturation) 80% / 0.58) 0%,
             hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness) / 0.92) 52%,
-            hsl(var(--gel-hue) var(--gel-saturation) 82% / 0.55) 100%
+            hsl(var(--gel-hue) var(--gel-saturation) 68% / 0.68) 100%
     );
 
     box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.55),
@@ -532,7 +532,7 @@
 }
 
 .gel-checkbox__input:checked ~ .gel-checkbox__box {
-    background: linear-gradient(to bottom, hsl(var(--gel-hue, 200) var(--gel-saturation, 75%) 80% / 0.60) 0%, hsl(var(--gel-hue, 200) var(--gel-saturation, 75%) 55% / 0.90) 52%, hsl(var(--gel-hue, 200) var(--gel-saturation, 75%) 82% / 0.55) 100%) padding-box,
+    background: linear-gradient(to bottom, hsl(var(--gel-hue, 200) var(--gel-saturation, 75%) 80% / 0.60) 0%, hsl(var(--gel-hue, 200) var(--gel-saturation, 75%) 55% / 0.90) 52%, hsl(var(--gel-hue, 200) var(--gel-saturation, 75%) 68% / 0.68) 100%) padding-box,
     linear-gradient(to bottom, hsl(var(--gel-hue, 200) var(--gel-saturation, 75%) 30% / 0.75) 0%, hsl(var(--gel-hue, 200) var(--gel-saturation, 75%) 80% / 0.42) 100%) border-box;
 }
 
@@ -591,7 +591,7 @@
 }
 
 .gel-radio__input:checked ~ .gel-radio__box {
-    background: linear-gradient(to bottom, hsl(var(--gel-hue, 200) var(--gel-saturation, 75%) 80% / 0.60) 0%, hsl(var(--gel-hue, 200) var(--gel-saturation, 75%) 55% / 0.90) 52%, hsl(var(--gel-hue, 200) var(--gel-saturation, 75%) 82% / 0.55) 100%) padding-box,
+    background: linear-gradient(to bottom, hsl(var(--gel-hue, 200) var(--gel-saturation, 75%) 80% / 0.60) 0%, hsl(var(--gel-hue, 200) var(--gel-saturation, 75%) 55% / 0.90) 52%, hsl(var(--gel-hue, 200) var(--gel-saturation, 75%) 68% / 0.68) 100%) padding-box,
     linear-gradient(to bottom, hsl(var(--gel-hue, 200) var(--gel-saturation, 75%) 30% / 0.75) 0%, hsl(var(--gel-hue, 200) var(--gel-saturation, 75%) 80% / 0.42) 100%) border-box;
 }
 
