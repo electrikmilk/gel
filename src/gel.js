@@ -56,6 +56,7 @@ class Gel {
     static #instances = new WeakMap();
 
     #el;
+    #keyboard;
     #hoverScale;
     #squishY;
     #highlightX;
@@ -69,11 +70,18 @@ class Gel {
                 Gel.#instances.set(el, new Gel(el));
             }
         });
+        // keyboard: false — key events bubble from child inputs and must not trigger squish
+        root.querySelectorAll('.gel-surface').forEach(el => {
+            if (!Gel.#instances.has(el)) {
+                Gel.#instances.set(el, new Gel(el, {keyboard: false}));
+            }
+        });
     }
 
-    constructor(el) {
+    constructor(el, {keyboard = true} = {}) {
         this.#el = el;
-        this.#hoverScale = new SpringValue({value: 1, stiffness: 260, damping: 7, mass: 1});
+        this.#keyboard = keyboard;
+        this.#hoverScale = new SpringValue({value: 1, stiffness: 200, damping: 7, mass: 1});
         this.#squishY = new SpringValue({value: 1, stiffness: 300, damping: 9, mass: 1});
         this.#highlightX = new SpringValue({value: 50, stiffness: 80, damping: 18, mass: 1});
         this.#highlightY = new SpringValue({value: 22, stiffness: 80, damping: 18, mass: 1});
@@ -89,8 +97,10 @@ class Gel {
         el.addEventListener('mouseup', this.#onRelease);
         el.addEventListener('touchstart', this.#onPress, {passive: true});
         el.addEventListener('touchend', this.#onRelease, {passive: true});
-        el.addEventListener('keydown', this.#onKeyDown);
-        el.addEventListener('keyup', this.#onKeyUp);
+        if (this.#keyboard) {
+            el.addEventListener('keydown', this.#onKeyDown);
+            el.addEventListener('keyup', this.#onKeyUp);
+        }
     }
 
     #onMouseEnter = () => {
