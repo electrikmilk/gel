@@ -71,36 +71,35 @@
        2. Top gloss band      — the Aqua signature: bright stripe at very top
        3. Bottom rim glow     — light wrapping the lower curve
        4. Gel body            — tinted translucent core */
-    background:
-        radial-gradient(
+    background: radial-gradient(
             ellipse 80% 55% at var(--gel-highlight-x) var(--gel-highlight-y),
             rgba(255, 255, 255, 0.52) 0%,
             rgba(255, 255, 255, 0.18) 28%,
             transparent 58%
-        ) padding-box,
-        linear-gradient(
+    ) padding-box,
+    linear-gradient(
             to bottom,
             rgba(255, 255, 255, 0.46) 0%,
             rgba(255, 255, 255, 0.22) 6%,
             rgba(255, 255, 255, 0.04) 20%,
             transparent 30%
-        ) padding-box,
-        radial-gradient(
+    ) padding-box,
+    radial-gradient(
             ellipse 65% 28% at 50% 100%,
             rgba(255, 255, 255, 0.14) 0%,
             transparent 70%
-        ) padding-box,
-        linear-gradient(
-            172deg,
+    ) padding-box,
+    linear-gradient(
+            to bottom,
             hsl(var(--gel-hue) var(--gel-saturation) 80% / 0.60) 0%,
             hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness) / 0.90) 52%,
             hsl(var(--gel-hue) var(--gel-saturation) 82% / 0.55) 100%
-        ) padding-box,
-        linear-gradient(
+    ) padding-box,
+    linear-gradient(
             to bottom,
             hsl(var(--gel-hue) var(--gel-saturation) 30% / 0.75) 0%,
             hsl(var(--gel-hue) var(--gel-saturation) 80% / 0.42) 100%
-        ) border-box;
+    ) border-box;
 
     /* --- border: gradient rim, dark at top (shadow) to light at bottom (rim) --- */
     border: 1px solid transparent;
@@ -181,31 +180,30 @@
     border-radius: 100vmax;
     min-width: 200px;
 
-    background:
-        radial-gradient(
+    background: radial-gradient(
             ellipse 80% 55% at var(--gel-highlight-x) var(--gel-highlight-y),
             rgba(255, 255, 255, 0.40) 0%,
             rgba(255, 255, 255, 0.14) 28%,
             transparent 58%
-        ) padding-box,
-        linear-gradient(
+    ) padding-box,
+    linear-gradient(
             to bottom,
             rgba(255, 255, 255, 0.36) 0%,
             rgba(255, 255, 255, 0.16) 6%,
             rgba(255, 255, 255, 0.03) 20%,
             transparent 30%
-        ) padding-box,
-        linear-gradient(
-            172deg,
+    ) padding-box,
+    linear-gradient(
+            to bottom,
             hsl(var(--gel-hue) var(--gel-saturation) 80% / 0.45) 0%,
             hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness) / 0.70) 52%,
             hsl(var(--gel-hue) var(--gel-saturation) 82% / 0.38) 100%
-        ) padding-box,
-        linear-gradient(
+    ) padding-box,
+    linear-gradient(
             to bottom,
             hsl(var(--gel-hue) var(--gel-saturation) 30% / 0.65) 0%,
             hsl(var(--gel-hue) var(--gel-saturation) 80% / 0.32) 100%
-        ) border-box;
+    ) border-box;
 
     border: 1px solid transparent;
 
@@ -278,30 +276,29 @@
     backdrop-filter: blur(24px) saturate(1.8) brightness(1.04);
     -webkit-backdrop-filter: blur(24px) saturate(1.8) brightness(1.04);
 
-    background:
-        linear-gradient(
+    background: linear-gradient(
             to bottom,
             rgba(255, 255, 255, 0.36) 0%,
             rgba(255, 255, 255, 0.18) 8%,
             rgba(255, 255, 255, 0.03) 25%,
             transparent 40%
-        ) padding-box,
-        radial-gradient(
+    ) padding-box,
+    radial-gradient(
             ellipse 65% 30% at 50% 100%,
             rgba(255, 255, 255, 0.10) 0%,
             transparent 70%
-        ) padding-box,
-        linear-gradient(
-            172deg,
+    ) padding-box,
+    linear-gradient(
+            to bottom,
             hsl(220 12% 80% / 0.42) 0%,
             hsl(220 12% 58% / 0.72) 52%,
             hsl(220 12% 82% / 0.38) 100%
-        ) padding-box,
-        linear-gradient(
+    ) padding-box,
+    linear-gradient(
             to bottom,
             hsl(220 12% 28% / 0.55) 0%,
             hsl(220 12% 80% / 0.28) 100%
-        ) border-box;
+    ) border-box;
 
     border: 1px solid transparent;
 
@@ -337,7 +334,7 @@
             transparent 70%
     ),
     linear-gradient(
-            172deg,
+            to bottom,
             hsl(var(--gel-hue) var(--gel-saturation) 80% / 0.58) 0%,
             hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness) / 0.92) 52%,
             hsl(var(--gel-hue) var(--gel-saturation) 82% / 0.55) 100%
@@ -401,37 +398,36 @@
 .gel-progress {
     position: relative;
     width: 100%;
-    height: 14px;
+    height: 20px;
     border-radius: 100vmax;
     overflow: hidden;
 
     backdrop-filter: blur(24px) saturate(1.8) brightness(1.04);
     -webkit-backdrop-filter: blur(24px) saturate(1.8) brightness(1.04);
 
-    background:
-        linear-gradient(
+    background: linear-gradient(
             to bottom,
             rgba(255, 255, 255, 0.36) 0%,
             rgba(255, 255, 255, 0.18) 8%,
             rgba(255, 255, 255, 0.03) 25%,
             transparent 40%
-        ) padding-box,
-        radial-gradient(
+    ) padding-box,
+    radial-gradient(
             ellipse 65% 30% at 50% 100%,
             rgba(255, 255, 255, 0.10) 0%,
             transparent 70%
-        ) padding-box,
-        linear-gradient(
-            172deg,
+    ) padding-box,
+    linear-gradient(
+            to bottom,
             hsl(220 12% 80% / 0.42) 0%,
             hsl(220 12% 58% / 0.72) 52%,
             hsl(220 12% 82% / 0.38) 100%
-        ) padding-box,
-        linear-gradient(
+    ) padding-box,
+    linear-gradient(
             to bottom,
             hsl(220 12% 28% / 0.55) 0%,
             hsl(220 12% 80% / 0.28) 100%
-        ) border-box;
+    ) border-box;
 
     border: 1px solid transparent;
 
@@ -466,7 +462,7 @@
             transparent 70%
     ),
     linear-gradient(
-            172deg,
+            to bottom,
             hsl(var(--gel-hue) var(--gel-saturation) 80% / 0.58) 0%,
             hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness) / 0.92) 52%,
             hsl(var(--gel-hue) var(--gel-saturation) 82% / 0.55) 100%
@@ -494,4 +490,122 @@
     opacity: 0;
     animation: gel-shimmer 6s ease-in-out infinite 3s;
     pointer-events: none;
+}
+
+
+/* ------------------------------------------------------------------ */
+/* Gel checkbox */
+/* ------------------------------------------------------------------ */
+
+.gel-checkbox {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.gel-checkbox__input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+.gel-checkbox__box {
+    position: relative;
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    overflow: visible;
+
+    border: 1px solid transparent;
+    backdrop-filter: blur(24px) saturate(1.8) brightness(1.04);
+    -webkit-backdrop-filter: blur(24px) saturate(1.8) brightness(1.04);
+
+    background: linear-gradient(to bottom, hsl(220 12% 80% / 0.45) 0%, hsl(220 12% 58% / 0.70) 52%, hsl(220 12% 82% / 0.38) 100%) padding-box,
+    linear-gradient(to bottom, hsl(220 12% 28% / 0.55) 0%, hsl(220 12% 80% / 0.28) 100%) border-box;
+
+    transition: background 0.2s ease, filter 0.2s ease;
+}
+
+.gel-checkbox__input:checked ~ .gel-checkbox__box {
+    background: linear-gradient(to bottom, hsl(var(--gel-hue, 200) var(--gel-saturation, 75%) 80% / 0.60) 0%, hsl(var(--gel-hue, 200) var(--gel-saturation, 75%) 55% / 0.90) 52%, hsl(var(--gel-hue, 200) var(--gel-saturation, 75%) 82% / 0.55) 100%) padding-box,
+    linear-gradient(to bottom, hsl(var(--gel-hue, 200) var(--gel-saturation, 75%) 30% / 0.75) 0%, hsl(var(--gel-hue, 200) var(--gel-saturation, 75%) 80% / 0.42) 100%) border-box;
+}
+
+.gel-checkbox__check {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-25%, calc(-50% - 5px));
+    width: 26px;
+    height: 24px;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+.gel-checkbox__input:checked ~ .gel-checkbox__box .gel-checkbox__check {
+    opacity: 1;
+}
+
+
+/* ------------------------------------------------------------------ */
+/* Gel radio */
+/* ------------------------------------------------------------------ */
+
+.gel-radio {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.gel-radio__input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+.gel-radio__box {
+    position: relative;
+    width: 28px;
+    height: 28px;
+    border-radius: 100vmax;
+    overflow: visible;
+
+    border: 1px solid transparent;
+    backdrop-filter: blur(24px) saturate(1.8) brightness(1.04);
+    -webkit-backdrop-filter: blur(24px) saturate(1.8) brightness(1.04);
+
+    background: linear-gradient(to bottom, hsl(220 12% 80% / 0.45) 0%, hsl(220 12% 58% / 0.70) 52%, hsl(220 12% 82% / 0.38) 100%) padding-box,
+    linear-gradient(to bottom, hsl(220 12% 28% / 0.55) 0%, hsl(220 12% 80% / 0.28) 100%) border-box;
+
+    transition: background 0.2s ease, filter 0.2s ease;
+}
+
+.gel-radio__input:checked ~ .gel-radio__box {
+    background: linear-gradient(to bottom, hsl(var(--gel-hue, 200) var(--gel-saturation, 75%) 80% / 0.60) 0%, hsl(var(--gel-hue, 200) var(--gel-saturation, 75%) 55% / 0.90) 52%, hsl(var(--gel-hue, 200) var(--gel-saturation, 75%) 82% / 0.55) 100%) padding-box,
+    linear-gradient(to bottom, hsl(var(--gel-hue, 200) var(--gel-saturation, 75%) 30% / 0.75) 0%, hsl(var(--gel-hue, 200) var(--gel-saturation, 75%) 80% / 0.42) 100%) border-box;
+}
+
+.gel-radio__dot {
+    position: absolute;
+    inset: 6px;
+    border-radius: 100vmax;
+    background: white;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.gel-radio__input:checked ~ .gel-radio__box .gel-radio__dot {
+    opacity: 1;
+    transform: scale(1);
 }
