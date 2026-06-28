@@ -44,9 +44,9 @@
         // 4. Tinted body — frosted translucent core
         linear-gradient(
             to bottom,
-            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-top) / var(--gel-body-alpha, 0.45)) 0%,
-            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness)  / var(--gel-body-alpha-mid, 0.72)) 52%,
-            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-bot)   / var(--gel-body-alpha, 0.45)) 100%
+            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-top) / var(--gel-body-alpha, 0.28)) 0%,
+            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness)  / var(--gel-body-alpha-mid, 0.48)) 52%,
+            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-bot)   / var(--gel-body-alpha, 0.28)) 100%
         ) padding-box,
         // 5. Gradient border
         linear-gradient(
@@ -75,9 +75,9 @@
         ),
         linear-gradient(
             to bottom,
-            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-top) / var(--gel-body-alpha, 0.45)) 0%,
-            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness)  / var(--gel-body-alpha-mid, 0.72)) 52%,
-            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-bot)   / var(--gel-body-alpha, 0.45)) 100%
+            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-top) / var(--gel-body-alpha, 0.28)) 0%,
+            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness)  / var(--gel-body-alpha-mid, 0.48)) 52%,
+            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-bot)   / var(--gel-body-alpha, 0.28)) 100%
         );
 }
 
@@ -205,8 +205,8 @@
     --gel-body-bot: 68%;
     --gel-border-hue: var(--gel-hue);
     --gel-border-sat: var(--gel-saturation);
-    --gel-body-alpha: 0.60;
-    --gel-body-alpha-mid: 0.85;
+    --gel-body-alpha: 0.38;
+    --gel-body-alpha-mid: 0.60;
 
     position: relative;
     display: inline-flex;
@@ -598,8 +598,8 @@
     --gel-lightness: 72%;   // raised from 65% — passes AA in dark mode
     --gel-body-top: 84%;
     --gel-body-bot: 82%;
-    --gel-body-alpha: 0.72;
-    --gel-body-alpha-mid: 0.90;
+    --gel-body-alpha: 0.50;
+    --gel-body-alpha-mid: 0.70;
 }
 
 .gel-ocean {
@@ -610,8 +610,8 @@
     --gel-body-bot: 75%;
     --gel-border-hue: 210;
     --gel-border-sat: 100%;
-    --gel-body-alpha: 0.72;
-    --gel-body-alpha-mid: 0.90;
+    --gel-body-alpha: 0.50;
+    --gel-body-alpha-mid: 0.70;
 }
 
 .gel-moss {
@@ -620,8 +620,8 @@
     --gel-lightness: 65%;
     --gel-body-top: 80%;
     --gel-body-bot: 79%;
-    --gel-body-alpha: 0.72;
-    --gel-body-alpha-mid: 0.90;
+    --gel-body-alpha: 0.50;
+    --gel-body-alpha-mid: 0.70;
 }
 
 .gel-ruby {
@@ -630,8 +630,8 @@
     --gel-lightness: 70%;   // raised from 65% — passes AA in dark mode
     --gel-body-top: 82%;
     --gel-body-bot: 80%;
-    --gel-body-alpha: 0.72;
-    --gel-body-alpha-mid: 0.90;
+    --gel-body-alpha: 0.50;
+    --gel-body-alpha-mid: 0.70;
 }
 
 .gel-amber {
@@ -640,8 +640,8 @@
     --gel-lightness: 65%;
     --gel-body-top: 80%;
     --gel-body-bot: 79%;
-    --gel-body-alpha: 0.72;
-    --gel-body-alpha-mid: 0.90;
+    --gel-body-alpha: 0.50;
+    --gel-body-alpha-mid: 0.70;
 }
 
 

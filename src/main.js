@@ -19,7 +19,6 @@ function initGelCursor() {
     const springX = new SpringValue({ stiffness: 260, damping: 18 });
     const springY = new SpringValue({ stiffness: 260, damping: 18 });
 
-    // Scale spring for click squish (scaleY drops on mousedown, rebounds on mouseup)
     const springScaleX = new SpringValue({ stiffness: 300, damping: 12, value: 1 });
     const springScaleY = new SpringValue({ stiffness: 300, damping: 12, value: 1 });
 
@@ -111,13 +110,31 @@ function initGelCursor() {
         ensureRunning();
     });
 
+    const INTERACTIVE = '.gel, .gel-input-wrapper, .gel-input, .gel-checkbox, .gel-radio';
+
+    // Hide gel cursor while over interactive elements; restore native cursor
+    document.addEventListener('mouseover', (e) => {
+        if (e.target.closest(INTERACTIVE)) {
+            cursor.style.opacity = '0';
+            document.body.classList.remove('gel-cursor-active');
+        }
+    });
+
     // Jiggle when leaving a gel element — velocity impulse, target stays at 1
+    // Also restore gel cursor when leaving all interactive elements
     document.addEventListener('mouseout', (e) => {
         const el = e.target;
         if (el.classList.contains('gel') && !el.contains(e.relatedTarget)) {
             springScaleX.velocity += 7;
             springScaleY.velocity -= 5;
             ensureRunning();
+        }
+
+        const leavingInteractive = el.closest(INTERACTIVE);
+        const enteringInteractive = e.relatedTarget?.closest(INTERACTIVE);
+        if (leavingInteractive && !enteringInteractive && active) {
+            cursor.style.opacity = '1';
+            document.body.classList.add('gel-cursor-active');
         }
     });
 
