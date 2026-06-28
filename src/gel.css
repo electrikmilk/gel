@@ -61,10 +61,15 @@
 .gel {
     /* --- tint: override to change the gel color ---
        --gel-hue: 0-360 (the color wheel position)
-       Example: style="--gel-hue: 200" for ocean blue */
+       Example: style="--gel-hue: 200" for ocean blue
+       --gel-border-hue / --gel-border-sat: border accent hue (defaults to body hue) */
     --gel-hue: 280;
     --gel-saturation: 75%;
     --gel-lightness: 55%;
+    --gel-body-top: 80%;
+    --gel-body-bot: 68%;
+    --gel-border-hue: var(--gel-hue);
+    --gel-border-sat: var(--gel-saturation);
 
     /* --- shape & layout --- */
     position: relative;
@@ -87,9 +92,9 @@
     ) padding-box,
     radial-gradient(
             ellipse 96% 62% at 50% 0%,
-            rgba(255, 255, 255, 0.68) 0%,
-            rgba(255, 255, 255, 0.46) 28%,
-            rgba(255, 255, 255, 0.14) 60%,
+            hsl(var(--gel-hue) var(--gel-saturation) 93% / 0.88) 0%,
+            hsl(var(--gel-hue) var(--gel-saturation) 88% / 0.58) 28%,
+            hsl(var(--gel-hue) var(--gel-saturation) 83% / 0.16) 60%,
             transparent 80%
     ) padding-box,
     radial-gradient(
@@ -99,14 +104,14 @@
     ) padding-box,
     linear-gradient(
             to bottom,
-            hsl(var(--gel-hue) var(--gel-saturation) 80% / 0.60) 0%,
+            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-top) / 0.60) 0%,
             hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness) / 0.90) 52%,
-            hsl(var(--gel-hue) var(--gel-saturation) 68% / 0.68) 100%
+            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-bot) / 0.68) 100%
     ) padding-box,
     linear-gradient(
             to bottom,
-            hsl(var(--gel-hue) var(--gel-saturation) 30% / 0.75) 0%,
-            hsl(var(--gel-hue) var(--gel-saturation) 80% / 0.42) 100%
+            hsl(var(--gel-border-hue) var(--gel-border-sat) 30% / 0.75) 0%,
+            hsl(var(--gel-border-hue) var(--gel-border-sat) 40% / 0.62) 100%
     ) border-box;
 
     /* --- border: gradient rim, dark at top (shadow) to light at bottom (rim) --- */
@@ -180,6 +185,8 @@
     --gel-hue: 220;
     --gel-saturation: 12%;
     --gel-lightness: 58%;
+    --gel-body-top: 80%;
+    --gel-body-bot: 68%;
 
     position: relative;
     display: inline-flex;
@@ -196,21 +203,21 @@
     ) padding-box,
     radial-gradient(
             ellipse 96% 62% at 50% 0%,
-            rgba(255, 255, 255, 0.58) 0%,
-            rgba(255, 255, 255, 0.38) 28%,
-            rgba(255, 255, 255, 0.10) 60%,
+            hsl(var(--gel-hue) var(--gel-saturation) 93% / 0.75) 0%,
+            hsl(var(--gel-hue) var(--gel-saturation) 88% / 0.48) 28%,
+            hsl(var(--gel-hue) var(--gel-saturation) 83% / 0.12) 60%,
             transparent 80%
     ) padding-box,
     linear-gradient(
             to bottom,
-            hsl(var(--gel-hue) var(--gel-saturation) 80% / 0.45) 0%,
+            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-top) / 0.45) 0%,
             hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness) / 0.70) 52%,
-            hsl(var(--gel-hue) var(--gel-saturation) 68% / 0.50) 100%
+            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-bot) / 0.50) 100%
     ) padding-box,
     linear-gradient(
             to bottom,
             hsl(var(--gel-hue) var(--gel-saturation) 30% / 0.65) 0%,
-            hsl(var(--gel-hue) var(--gel-saturation) 80% / 0.32) 100%
+            hsl(var(--gel-hue) var(--gel-saturation) 40% / 0.52) 100%
     ) border-box;
 
     border: 1px solid transparent;
@@ -254,14 +261,15 @@
     border: none;
     outline: none;
     width: 100%;
-    color: white;
+    color: var(--input-color, white);
     font: inherit;
     font-size: 0.95rem;
-    caret-color: rgba(255, 255, 255, 0.90);
+    caret-color: var(--input-caret, rgba(255, 255, 255, 0.90));
+    transition: color 0.4s ease;
 }
 
 .gel-input::placeholder {
-    color: rgba(255, 255, 255, 0.45);
+    color: var(--input-placeholder, rgba(255, 255, 255, 0.45));
 }
 
 
@@ -305,7 +313,7 @@
     linear-gradient(
             to bottom,
             hsl(220 12% 28% / 0.55) 0%,
-            hsl(220 12% 80% / 0.28) 100%
+            hsl(220 12% 38% / 0.48) 100%
     ) border-box;
 
     border: 1px solid transparent;
@@ -320,6 +328,8 @@
     --gel-hue: 280;
     --gel-saturation: 75%;
     --gel-lightness: 55%;
+    --gel-body-top: 80%;
+    --gel-body-bot: 68%;
 
     position: absolute;
     left: 0;
@@ -343,9 +353,9 @@
     ),
     linear-gradient(
             to bottom,
-            hsl(var(--gel-hue) var(--gel-saturation) 80% / 0.58) 0%,
+            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-top) / 0.58) 0%,
             hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness) / 0.92) 52%,
-            hsl(var(--gel-hue) var(--gel-saturation) 68% / 0.68) 100%
+            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-bot) / 0.68) 100%
     );
 
     box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.55),
@@ -434,7 +444,7 @@
     linear-gradient(
             to bottom,
             hsl(220 12% 28% / 0.55) 0%,
-            hsl(220 12% 80% / 0.28) 100%
+            hsl(220 12% 38% / 0.48) 100%
     ) border-box;
 
     border: 1px solid transparent;
@@ -449,6 +459,8 @@
     --gel-hue: 280;
     --gel-saturation: 75%;
     --gel-lightness: 55%;
+    --gel-body-top: 80%;
+    --gel-body-bot: 68%;
 
     position: absolute;
     left: 0;
@@ -471,9 +483,9 @@
     ),
     linear-gradient(
             to bottom,
-            hsl(var(--gel-hue) var(--gel-saturation) 80% / 0.58) 0%,
+            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-top) / 0.58) 0%,
             hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness) / 0.92) 52%,
-            hsl(var(--gel-hue) var(--gel-saturation) 68% / 0.68) 100%
+            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-bot) / 0.68) 100%
     );
 
     box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.55),
@@ -528,6 +540,9 @@
     height: 28px;
     border-radius: 7px;
     overflow: visible;
+    --gel-lightness: 55%;
+    --gel-body-top: 80%;
+    --gel-body-bot: 68%;
 
     border: 1px solid transparent;
     backdrop-filter: blur(24px) saturate(1.8) brightness(1.04);
@@ -541,9 +556,9 @@
     ) padding-box,
     radial-gradient(
             ellipse 96% 62% at 50% 0%,
-            rgba(255, 255, 255, 0.65) 0%,
-            rgba(255, 255, 255, 0.44) 28%,
-            rgba(255, 255, 255, 0.12) 60%,
+            hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) 93% / 0.85) 0%,
+            hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) 88% / 0.55) 28%,
+            hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) 83% / 0.14) 60%,
             transparent 80%
     ) padding-box,
     radial-gradient(
@@ -552,7 +567,7 @@
             transparent 70%
     ) padding-box,
     linear-gradient(to bottom, hsl(220 12% 80% / 0.45) 0%, hsl(220 12% 58% / 0.70) 52%, hsl(220 12% 68% / 0.50) 100%) padding-box,
-    linear-gradient(to bottom, hsl(220 12% 28% / 0.55) 0%, hsl(220 12% 80% / 0.28) 100%) border-box;
+    linear-gradient(to bottom, hsl(220 12% 28% / 0.55) 0%, hsl(220 12% 38% / 0.48) 100%) border-box;
 
     transition: background 0.2s ease, filter 0.2s ease, --gel-specular-opacity 0.2s ease;
 }
@@ -576,8 +591,8 @@
             rgba(255, 255, 255, 0.22) 0%,
             transparent 70%
     ) padding-box,
-    linear-gradient(to bottom, hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) 80% / 0.60) 0%, hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) 55% / 0.90) 52%, hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) 68% / 0.68) 100%) padding-box,
-    linear-gradient(to bottom, hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) 30% / 0.75) 0%, hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) 80% / 0.42) 100%) border-box;
+    linear-gradient(to bottom, hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) var(--gel-body-top) / 0.60) 0%, hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) var(--gel-lightness) / 0.90) 52%, hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) var(--gel-body-bot) / 0.68) 100%) padding-box,
+    linear-gradient(to bottom, hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) 30% / 0.75) 0%, hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) 40% / 0.62) 100%) border-box;
 }
 
 .gel-checkbox__check {
@@ -623,6 +638,9 @@
     height: 28px;
     border-radius: 100vmax;
     overflow: visible;
+    --gel-lightness: 55%;
+    --gel-body-top: 80%;
+    --gel-body-bot: 68%;
 
     border: 1px solid transparent;
     backdrop-filter: blur(24px) saturate(1.8) brightness(1.04);
@@ -636,9 +654,9 @@
     ) padding-box,
     radial-gradient(
             ellipse 96% 62% at 50% 0%,
-            rgba(255, 255, 255, 0.65) 0%,
-            rgba(255, 255, 255, 0.44) 28%,
-            rgba(255, 255, 255, 0.12) 60%,
+            hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) 93% / 0.85) 0%,
+            hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) 88% / 0.55) 28%,
+            hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) 83% / 0.14) 60%,
             transparent 80%
     ) padding-box,
     radial-gradient(
@@ -647,7 +665,7 @@
             transparent 70%
     ) padding-box,
     linear-gradient(to bottom, hsl(220 12% 80% / 0.45) 0%, hsl(220 12% 58% / 0.70) 52%, hsl(220 12% 68% / 0.50) 100%) padding-box,
-    linear-gradient(to bottom, hsl(220 12% 28% / 0.55) 0%, hsl(220 12% 80% / 0.28) 100%) border-box;
+    linear-gradient(to bottom, hsl(220 12% 28% / 0.55) 0%, hsl(220 12% 38% / 0.48) 100%) border-box;
 
     transition: background 0.2s ease, filter 0.2s ease, --gel-specular-opacity 0.2s ease;
 }
@@ -671,8 +689,8 @@
             rgba(255, 255, 255, 0.22) 0%,
             transparent 70%
     ) padding-box,
-    linear-gradient(to bottom, hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) 80% / 0.60) 0%, hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) 55% / 0.90) 52%, hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) 68% / 0.68) 100%) padding-box,
-    linear-gradient(to bottom, hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) 30% / 0.75) 0%, hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) 80% / 0.42) 100%) border-box;
+    linear-gradient(to bottom, hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) var(--gel-body-top) / 0.60) 0%, hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) var(--gel-lightness) / 0.90) 52%, hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) var(--gel-body-bot) / 0.68) 100%) padding-box,
+    linear-gradient(to bottom, hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) 30% / 0.75) 0%, hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) 40% / 0.62) 100%) border-box;
 }
 
 .gel-radio__dot {
@@ -688,4 +706,49 @@
 .gel-radio__input:checked ~ .gel-radio__box .gel-radio__dot {
     opacity: 1;
     transform: scale(1);
+}
+
+
+/* ------------------------------------------------------------------ */
+/* Light mode overrides                                                 */
+/* ------------------------------------------------------------------ */
+
+/* Solid dark top border in light mode — creates depth like a shadow
+   cast by the element's own top edge. Other sides stay transparent so
+   the gradient border-box still renders on the remaining three edges. */
+[data-theme="light"] .gel,
+[data-theme="light"] .gel-surface,
+[data-theme="light"] .gel-slider__track,
+[data-theme="light"] .gel-progress {
+    border-top-color: rgba(0, 0, 0, 0.13);
+}
+
+/* Light mode gel buttons — lighter, more pastel body with black text.
+   !important on --gel-lightness beats inline dark-mode overrides
+   (e.g. Ocean's --gel-lightness: 40%, Mint's --gel-lightness: 38%). */
+[data-theme="light"] .gel {
+    --gel-body-top: 90%;
+    --gel-lightness: 72% !important;
+    --gel-body-bot: 84%;
+    color: rgba(0, 0, 0, 0.78);
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.60);
+}
+
+/* Light mode inputs — very translucent so the light scene shows through.
+   !important beats inline --gel-lightness overrides on colored variants. */
+[data-theme="light"] .gel-input-wrapper {
+    --gel-body-top: 92%;
+    --gel-lightness: 88% !important;
+    --gel-body-bot: 92%;
+}
+
+/* Slider/progress fills, checkbox and radio checked states — share the
+   same lightness tokens as the buttons so all colored gel matches. */
+[data-theme="light"] .gel-slider__fill,
+[data-theme="light"] .gel-progress__fill,
+[data-theme="light"] .gel-checkbox__box,
+[data-theme="light"] .gel-radio__box {
+    --gel-body-top: 90%;
+    --gel-lightness: 72% !important;
+    --gel-body-bot: 84%;
 }
