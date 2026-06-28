@@ -1,3 +1,5 @@
+<img width="467" height="227" alt="Screenshot 2026-06-28 at 17 44 58" src="https://github.com/user-attachments/assets/17ee0e89-7860-4432-87d3-9c6accd1774f" />
+
 # Gel
 
 Aqua-inspired frosted glass UI components with spring physics. Translucent surfaces, underdamped spring interactions, and gradient layers faithful to the OS X aesthetic — composable CSS + JS, no framework required.
