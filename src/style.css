@@ -42,10 +42,6 @@
         --social-bg: rgba(47, 48, 58, 0.5);
         --shadow: rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
     }
-
-    #social .button-icon {
-        filter: invert(1) brightness(2);
-    }
 }
 
 body {
@@ -58,6 +54,10 @@ h1, h2, h3, h4, h5 {
 
 p {
     line-height: 1.6;
+}
+
+button {
+    font-weight: bold;
 }
 
 /* Theme tokens — dark is default */
@@ -173,6 +173,10 @@ p {
 
 .demo-title {
     color: var(--title-color);
+    position: fixed;
+    top: 1rem;
+    left: 1.5rem;
+    z-index: 10;
     font-size: 3rem;
     font-weight: 600;
     letter-spacing: -1px;

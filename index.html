@@ -11,6 +11,8 @@
 </head>
 <body>
 
+<h1 class="demo-title">Gel</h1>
+
 <button class="gel theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">☀</button>
 
 <div class="demo-scene">
@@ -21,11 +23,15 @@
 </div>
 
 <main class="demo">
-    <h1 class="demo-title">Gel</h1>
+    <div style="display: flex;height: 75vh;justify-content: center;align-items: center">
+        <button class="gel gel-lg">Gel</button>
+    </div>
 
     <div class="demo-row">
-        <button class="gel gel-neutral">Cancel</button>
+        <button class="gel">Cancel</button>
         <button class="gel gel-ocean">OK</button>
+        <button class="gel gel-ruby">Delete</button>
+        <button class="gel gel-moss">Save</button>
     </div>
 
     <div class="demo-row">
@@ -37,9 +43,9 @@
     </div>
 
     <div class="demo-row">
-        <button class="gel gel-violet" style="font-size: 0.8rem; padding: 0.3rem 0.9rem">Small</button>
-        <button class="gel gel-violet" style="padding: 0.75rem 2.25rem; font-size: 1.15rem">Large</button>
-        <button class="gel gel-neutral">Neutral</button>
+        <button class="gel gel-violet gel-sm">Small</button>
+        <button class="gel gel-violet gel-lg">Large</button>
+        <button class="gel">Neutral</button>
     </div>
 
     <p class="demo-label">Inputs</p>
@@ -48,8 +54,8 @@
         <div class="gel-input-wrapper gel-surface">
             <input class="gel-input" type="text" placeholder="Gel input…" aria-label="Gel input"/>
         </div>
-        <div class="gel-input-wrapper gel-surface gel-violet">
-            <input class="gel-input" type="text" placeholder="Violet…" aria-label="Violet input"/>
+        <div class="gel-input-wrapper gel-surface gel-ruby">
+            <input class="gel-input" type="text" placeholder="Required" aria-label="Required input"/>
         </div>
         <div class="gel-input-wrapper gel-surface gel-ocean">
             <input class="gel-input" type="text" placeholder="Ocean…" aria-label="Ocean input"/>
