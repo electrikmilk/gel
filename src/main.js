@@ -1,5 +1,5 @@
 import './style.css';
-import './gel.css';
+import './gel.scss';
 import {Gel, GelSlider} from './gel.js';
 
 document.addEventListener('DOMContentLoaded', () => {
