@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     Gel.initAll();
     initTheme();
     initGelCursor();
+    initGelRange();
 });
 
 function initGelCursor() {
@@ -16,11 +17,11 @@ function initGelCursor() {
     const RADIUS = 28;
 
     // Position springs — underdamped so fast moves ricochet past target
-    const springX = new SpringValue({ stiffness: 260, damping: 18 });
-    const springY = new SpringValue({ stiffness: 260, damping: 18 });
+    const springX = new SpringValue({stiffness: 260, damping: 18});
+    const springY = new SpringValue({stiffness: 260, damping: 18});
 
-    const springScaleX = new SpringValue({ stiffness: 300, damping: 12, value: 1 });
-    const springScaleY = new SpringValue({ stiffness: 300, damping: 12, value: 1 });
+    const springScaleX = new SpringValue({stiffness: 300, damping: 12, value: 1});
+    const springScaleY = new SpringValue({stiffness: 300, damping: 12, value: 1});
 
     let rafId = null;
     let lastTime = 0;
@@ -36,12 +37,12 @@ function initGelCursor() {
         springScaleY.step(dt);
 
         cursor.style.transform =
-            `translate(${springX.value}px, ${springY.value}px) ` +
-            `scaleX(${springScaleX.value}) scaleY(${springScaleY.value})`;
+                `translate(${springX.value}px, ${springY.value}px) ` +
+                `scaleX(${springScaleX.value}) scaleY(${springScaleY.value})`;
 
         const settled =
-            springX.isSettled() && springY.isSettled() &&
-            springScaleX.isSettled() && springScaleY.isSettled();
+                springX.isSettled() && springY.isSettled() &&
+                springScaleX.isSettled() && springScaleY.isSettled();
 
         if (!settled) {
             rafId = requestAnimationFrame(tick);
@@ -110,7 +111,7 @@ function initGelCursor() {
         ensureRunning();
     });
 
-    const INTERACTIVE = '.gel, .gel-input-wrapper, .gel-input, .gel-checkbox, .gel-radio';
+    const INTERACTIVE = '.gel, .gel-checkbox, .gel-radio, input, button';
 
     // Hide gel cursor while over interactive elements; restore native cursor
     document.addEventListener('mouseover', (e) => {
@@ -149,6 +150,96 @@ function initGelCursor() {
             cursor.style.opacity = '1';
             document.body.classList.add('gel-cursor-active');
         }
+    });
+}
+
+function initGelRange() {
+    document.querySelectorAll('.gel-range').forEach(el => {
+        const scaleX = new SpringValue({stiffness: 300, damping: 9, value: 1});
+        const scaleY = new SpringValue({stiffness: 300, damping: 9, value: 1});
+        const hlX = new SpringValue({stiffness: 80, damping: 18, value: 50});
+        const hlY = new SpringValue({stiffness: 80, damping: 18, value: 22});
+        const specular = new SpringValue({stiffness: 60, damping: 14, value: 0});
+
+        let rafId = null;
+        let lastTime = 0;
+        let hovering = false;
+
+        function tick(now) {
+            const dt = Math.min((now - lastTime) / 1000, 0.05);
+            lastTime = now;
+
+            scaleX.step(dt);
+            scaleY.step(dt);
+            hlX.step(dt);
+            hlY.step(dt);
+            specular.step(dt);
+
+            el.style.setProperty('--gel-thumb-scale-x', scaleX.value);
+            el.style.setProperty('--gel-thumb-scale-y', scaleY.value);
+            el.style.setProperty('--gel-thumb-highlight-x', hlX.value + '%');
+            el.style.setProperty('--gel-thumb-highlight-y', hlY.value + '%');
+            el.style.setProperty('--gel-thumb-specular-opacity', specular.value);
+
+            const settled = scaleX.isSettled() && scaleY.isSettled() &&
+                    hlX.isSettled() && hlY.isSettled() &&
+                    specular.isSettled();
+            rafId = settled ? null : requestAnimationFrame(tick);
+        }
+
+        function run() {
+            if (!rafId) {
+                lastTime = performance.now();
+                rafId = requestAnimationFrame(tick);
+            }
+        }
+
+        // Approximate thumb center X so specular tracks relative to the thumb
+        function thumbCenterX() {
+            const rect = el.getBoundingClientRect();
+            const min = +el.min || 0, max = +el.max || 100, val = +el.value;
+            const thumbW = 40;
+            return rect.left + thumbW / 2 + (val - min) / (max - min) * (rect.width - thumbW);
+        }
+
+        el.addEventListener('pointerenter', () => {
+            hovering = true;
+            scaleX.setTarget(1.04);
+            scaleY.setTarget(1.04);
+            specular.setTarget(1);
+            run();
+        });
+
+        el.addEventListener('pointermove', (e) => {
+            const rect = el.getBoundingClientRect();
+            const cx = thumbCenterX();
+            const cy = rect.top + rect.height / 2;
+            hlX.setTarget(Math.max(10, Math.min(90, ((e.clientX - cx) / 20 + 0.5) * 100)));
+            hlY.setTarget(Math.max(5, Math.min(60, ((e.clientY - cy) / 10 + 0.5) * 100)));
+            run();
+        });
+
+        el.addEventListener('pointerleave', () => {
+            hovering = false;
+            scaleX.setTarget(1);
+            scaleY.setTarget(1);
+            scaleX.velocity += 5;
+            scaleY.velocity -= 4;
+            specular.setTarget(0);
+            run();
+        });
+
+        el.addEventListener('pointerdown', () => {
+            scaleX.setTarget(1.15);
+            scaleY.setTarget(0.75);
+            run();
+        });
+
+        el.addEventListener('pointerup', () => {
+            scaleX.setTarget(hovering ? 1.04 : 1);
+            scaleY.setTarget(hovering ? 1.04 : 1);
+            run();
+        });
     });
 }
 

@@ -1,10 +1,64 @@
 // ─── Animatable custom properties ────────────────────────────────────────────
 
-@property --gel-scale-x       { syntax: "<number>";     inherits: false; initial-value: 1;   }
-@property --gel-scale-y       { syntax: "<number>";     inherits: false; initial-value: 1;   }
-@property --gel-highlight-x   { syntax: "<percentage>"; inherits: false; initial-value: 50%; }
-@property --gel-highlight-y   { syntax: "<percentage>"; inherits: false; initial-value: 22%; }
-@property --gel-specular-opacity { syntax: "<number>";  inherits: false; initial-value: 0;   }
+@property --gel-scale-x {
+    syntax: "<number>";
+    inherits: false;
+    initial-value: 1;
+}
+
+@property --gel-scale-y {
+    syntax: "<number>";
+    inherits: false;
+    initial-value: 1;
+}
+
+@property --gel-highlight-x {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 50%;
+}
+
+@property --gel-highlight-y {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 22%;
+}
+
+@property --gel-specular-opacity {
+    syntax: "<number>";
+    inherits: false;
+    initial-value: 0;
+}
+
+@property --gel-thumb-scale-x {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 1;
+}
+
+@property --gel-thumb-scale-y {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 1;
+}
+
+@property --gel-thumb-highlight-x {
+    syntax: "<percentage>";
+    inherits: true;
+    initial-value: 50%;
+}
+
+@property --gel-thumb-highlight-y {
+    syntax: "<percentage>";
+    inherits: true;
+    initial-value: 22%;
+}
+
+@property --gel-thumb-specular-opacity {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+}
 
 
 // ─── Gradient layer mixin ─────────────────────────────────────────────────────
@@ -18,67 +72,88 @@
 // Palette classes override --gel-body-alpha and --gel-body-alpha-mid for vivid variants.
 
 @mixin gel-background() {
+    background: // 1. Specular highlight — tracks pointer via gel.js
+            radial-gradient(
+                    ellipse 80% 55% at var(--gel-highlight-x) var(--gel-highlight-y),
+                    rgba(255, 255, 255, calc(0.72 * var(--gel-specular-opacity))) 0%,
+                    rgba(255, 255, 255, calc(0.28 * var(--gel-specular-opacity))) 28%,
+                    transparent 49%
+            ) padding-box,
+                // 2. Top gloss cap — Aqua signature pale-hue band
+            linear-gradient(
+                    to bottom,
+                    hsl(var(--gel-hue) var(--gel-saturation) 90% / 0.95) 0%,
+                    hsl(var(--gel-hue) var(--gel-saturation) 86% / 0.80) 18%,
+                    hsl(var(--gel-hue) var(--gel-saturation) 80% / 0.35) 34%,
+                    transparent 50%
+            ) padding-box,
+                // 3. Bottom rim catch-light
+            radial-gradient(
+                    ellipse 60% 22% at 50% 100%,
+                    rgba(255, 255, 255, 0.55) 0%,
+                    rgba(255, 255, 255, 0.18) 40%,
+                    transparent 70%
+            ) padding-box,
+                // 4. Tinted body — frosted translucent core
+            linear-gradient(
+                    to bottom,
+                    hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-top) / var(--gel-body-alpha, 0.28)) 0%,
+                    hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness)  / var(--gel-body-alpha-mid, 0.48)) 52%,
+                    hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-bot)   / var(--gel-body-alpha, 0.28)) 100%
+            ) padding-box,
+                // 5. Gradient border
+            linear-gradient(
+                    to bottom,
+                    hsl(var(--gel-border-hue) var(--gel-border-sat) var(--gel-border-lightness-top, 30%) / 0.75) 0%,
+                    hsl(var(--gel-border-hue) var(--gel-border-sat) var(--gel-border-lightness-bot, 40%) / 0.62) 100%
+            ) border-box;
+}
+
+// Track background — same gel layers without padding-box/border-box clips
+// (safe for both real elements and ::webkit-slider-runnable-track pseudo-elements).
+// Neutral vars should be set on the element before including.
+@mixin gel-track-background() {
     background:
-        // 1. Specular highlight — tracks pointer via gel.js
-        radial-gradient(
-            ellipse 80% 55% at var(--gel-highlight-x) var(--gel-highlight-y),
-            rgba(255, 255, 255, calc(0.72 * var(--gel-specular-opacity))) 0%,
-            rgba(255, 255, 255, calc(0.28 * var(--gel-specular-opacity))) 28%,
-            transparent 49%
-        ) padding-box,
-        // 2. Top gloss cap — Aqua signature pale-hue band
-        linear-gradient(
-            to bottom,
+        linear-gradient(to bottom,
             hsl(var(--gel-hue) var(--gel-saturation) 90% / 0.95) 0%,
             hsl(var(--gel-hue) var(--gel-saturation) 86% / 0.80) 18%,
             hsl(var(--gel-hue) var(--gel-saturation) 80% / 0.35) 34%,
             transparent 50%
-        ) padding-box,
-        // 3. Bottom rim catch-light
-        radial-gradient(
-            ellipse 60% 22% at 50% 100%,
+        ),
+        radial-gradient(ellipse 60% 22% at 50% 100%,
             rgba(255, 255, 255, 0.55) 0%,
             rgba(255, 255, 255, 0.18) 40%,
             transparent 70%
-        ) padding-box,
-        // 4. Tinted body — frosted translucent core
-        linear-gradient(
-            to bottom,
+        ),
+        linear-gradient(to bottom,
             hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-top) / var(--gel-body-alpha, 0.28)) 0%,
-            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness)  / var(--gel-body-alpha-mid, 0.48)) 52%,
-            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-bot)   / var(--gel-body-alpha, 0.28)) 100%
-        ) padding-box,
-        // 5. Gradient border
-        linear-gradient(
-            to bottom,
-            hsl(var(--gel-border-hue) var(--gel-border-sat) var(--gel-border-lightness-top, 30%) / 0.75) 0%,
-            hsl(var(--gel-border-hue) var(--gel-border-sat) var(--gel-border-lightness-bot, 40%) / 0.62) 100%
-        ) border-box;
+            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness) / var(--gel-body-alpha-mid, 0.48)) 52%,
+            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-bot) / var(--gel-body-alpha, 0.28)) 100%
+        );
 }
 
 // 4-layer variant for fill elements (slider fill, progress fill).
 // No specular tracking, no border — fills sit inside a track.
 @mixin gel-fill-background() {
-    background:
-        linear-gradient(
+    background: linear-gradient(
             to bottom,
             hsl(var(--gel-hue) var(--gel-saturation) 90% / 0.95) 0%,
             hsl(var(--gel-hue) var(--gel-saturation) 86% / 0.80) 18%,
             hsl(var(--gel-hue) var(--gel-saturation) 80% / 0.35) 34%,
             transparent 50%
-        ),
-        radial-gradient(
+    ),
+    radial-gradient(
             ellipse 60% 22% at 50% 100%,
             rgba(255, 255, 255, 0.55) 0%,
             rgba(255, 255, 255, 0.18) 40%,
             transparent 70%
-        ),
-        linear-gradient(
+    ),
+    linear-gradient(
             to bottom,
             hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-top) / var(--gel-body-alpha, 0.28)) 0%,
             hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness)  / var(--gel-body-alpha-mid, 0.48)) 52%,
             hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-bot)   / var(--gel-body-alpha, 0.28)) 100%
-        );
+    );
 }
 
 // Diagonal shimmer streak (idle animation)
@@ -88,12 +163,12 @@
     inset: 0;
     border-radius: inherit;
     background: linear-gradient(
-        108deg,
-        transparent 25%,
-        rgba(255, 255, 255, 0.10) 48%,
-        rgba(255, 255, 255, 0.16) 50%,
-        rgba(255, 255, 255, 0.10) 52%,
-        transparent 75%
+            108deg,
+            transparent 25%,
+            rgba(255, 255, 255, 0.10) 48%,
+            rgba(255, 255, 255, 0.16) 50%,
+            rgba(255, 255, 255, 0.10) 52%,
+            transparent 75%
     );
     opacity: 0;
     animation: gel-shimmer $duration ease-in-out infinite $delay;
@@ -127,6 +202,11 @@
     --gel-specular-opacity: 1;
 }
 
+// ─── Gel button ───────────────────────────────────────────────────────────────
+
+a.gel {
+    font-weight: bold;
+}
 
 // ─── Gel button ───────────────────────────────────────────────────────────────
 
@@ -153,11 +233,10 @@
 
     border: 1px solid transparent;
 
-    box-shadow:
-        inset 0 1px 3px rgba(255, 255, 255, 0.45),
-        inset 0 -1px 2px rgba(255, 255, 255, 0.22),
-        0 6px 24px hsl(var(--gel-hue) var(--gel-saturation) 50% / 0.30),
-        0 2px 6px rgba(0, 0, 0, 0.10);
+    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.45),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.22),
+    0 6px 24px hsl(var(--gel-hue) var(--gel-saturation) 50% / 0.30),
+    0 2px 6px rgba(0, 0, 0, 0.10);
 
     color: rgba(0, 0, 0, 0.78);
     font-family: inherit;
@@ -173,11 +252,10 @@
     }
 
     &:hover {
-        box-shadow:
-            inset 0 1px 3px rgba(255, 255, 255, 0.45),
-            inset 0 -1px 2px rgba(255, 255, 255, 0.22),
-            0 8px 32px hsl(var(--gel-hue) var(--gel-saturation) 50% / 0.42),
-            0 2px 8px rgba(0, 0, 0, 0.12);
+        box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.45),
+        inset 0 -1px 2px rgba(255, 255, 255, 0.22),
+        0 8px 32px hsl(var(--gel-hue) var(--gel-saturation) 50% / 0.42),
+        0 2px 8px rgba(0, 0, 0, 0.12);
     }
 
     &:focus-visible {
@@ -187,13 +265,26 @@
 }
 
 @keyframes gel-shimmer {
-    0%   { opacity: 0; }
-    50%  { opacity: 1; }
-    100% { opacity: 0; }
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }
 
-.gel-sm { font-size: 0.8rem;  padding: 0.3rem 0.9rem;   }
-.gel-lg { font-size: 1.15rem; padding: 0.75rem 2.25rem; }
+.gel-sm {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.9rem;
+}
+
+.gel-lg {
+    font-size: 1.15rem;
+    padding: 0.75rem 2.25rem;
+}
 
 
 // ─── Gel input ────────────────────────────────────────────────────────────────
@@ -220,11 +311,10 @@
 
     border: 1px solid transparent;
 
-    box-shadow:
-        inset 0 1px 2px rgba(255, 255, 255, 0.45),
-        inset 0 -1px 2px rgba(255, 255, 255, 0.10),
-        0 4px 16px hsl(var(--gel-hue) var(--gel-saturation) 50% / 0.12),
-        0 2px 6px rgba(0, 0, 0, 0.08);
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.45),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.10),
+    0 4px 16px hsl(var(--gel-hue) var(--gel-saturation) 50% / 0.12),
+    0 2px 6px rgba(0, 0, 0, 0.08);
 
     transition: box-shadow 0.25s ease, filter 0.2s ease, --gel-specular-opacity 0.2s ease;
 
@@ -233,12 +323,11 @@
     }
 
     &:focus-within {
-        box-shadow:
-            inset 0 1px 2px rgba(255, 255, 255, 0.45),
-            inset 0 -1px 2px rgba(255, 255, 255, 0.10),
-            0 4px 20px hsl(var(--gel-hue) var(--gel-saturation) 50% / 0.22),
-            0 2px 8px rgba(0, 0, 0, 0.10),
-            0 0 0 2px hsl(var(--gel-hue) var(--gel-saturation) 65% / 0.70);
+        box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.45),
+        inset 0 -1px 2px rgba(255, 255, 255, 0.10),
+        0 4px 20px hsl(var(--gel-hue) var(--gel-saturation) 50% / 0.22),
+        0 2px 8px rgba(0, 0, 0, 0.10),
+        0 0 0 2px hsl(var(--gel-hue) var(--gel-saturation) 65% / 0.70);
     }
 }
 
@@ -269,6 +358,14 @@
 }
 
 .gel-slider__track {
+    --gel-hue: 0;
+    --gel-saturation: 0%;
+    --gel-lightness: 88%;
+    --gel-body-top: 92%;
+    --gel-body-bot: 92%;
+    --gel-border-hue: 0;
+    --gel-border-sat: 0%;
+
     position: relative;
     height: 10px;
     border-radius: 100vmax;
@@ -276,34 +373,14 @@
     backdrop-filter: blur(36px) saturate(1.6) brightness(1.05);
     -webkit-backdrop-filter: blur(36px) saturate(1.6) brightness(1.05);
 
-    background:
-        linear-gradient(to bottom,
-            rgba(255, 255, 255, 0.36) 0%,
-            rgba(255, 255, 255, 0.18) 8%,
-            rgba(255, 255, 255, 0.03) 25%,
-            transparent 40%
-        ) padding-box,
-        radial-gradient(ellipse 65% 30% at 50% 100%,
-            rgba(255, 255, 255, 0.10) 0%,
-            transparent 70%
-        ) padding-box,
-        linear-gradient(to bottom,
-            hsl(220 12% 80% / 0.26) 0%,
-            hsl(220 12% 58% / 0.44) 52%,
-            hsl(220 12% 82% / 0.24) 100%
-        ) padding-box,
-        linear-gradient(to bottom,
-            hsl(220 12% 28% / 0.55) 0%,
-            hsl(220 12% 38% / 0.48) 100%
-        ) border-box;
+    @include gel-background();
 
     border: 1px solid transparent;
 
-    box-shadow:
-        inset 0 1px 2px rgba(255, 255, 255, 0.40),
-        inset 0 -1px 2px rgba(255, 255, 255, 0.10),
-        0 3px 12px rgba(0, 0, 0, 0.14),
-        0 1px 4px rgba(0, 0, 0, 0.10);
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.40),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.10),
+    0 3px 12px rgba(0, 0, 0, 0.14),
+    0 1px 4px rgba(0, 0, 0, 0.10);
 }
 
 .gel-slider__fill {
@@ -323,9 +400,8 @@
 
     @include gel-fill-background();
 
-    box-shadow:
-        inset 0 1px 1px rgba(255, 255, 255, 0.45),
-        inset 0 -1px 1px rgba(255, 255, 255, 0.12);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.45),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.12);
 
     &::after {
         @include gel-shimmer-layer(6s, 1.5s);
@@ -349,12 +425,144 @@
     cursor: grab;
     touch-action: none;
 
-    &:active { cursor: grabbing; }
+    &:active {
+        cursor: grabbing;
+    }
 }
 
 .gel-slider:focus-visible .gel-slider__thumb {
     outline: 2px solid hsl(var(--gel-hue) var(--gel-saturation) 65% / 0.90);
     outline-offset: 3px;
+}
+
+
+// ─── Gel range (native input[type=range]) ────────────────────────────────────
+//
+// Simpler than gel-slider: no fill indicator, no JS, pure CSS.
+// Apply palette classes directly on the input element.
+
+.gel-range {
+    --gel-hue: 0;
+    --gel-saturation: 0%;
+    --gel-lightness: 88%;
+    --gel-body-top: 92%;
+    --gel-body-bot: 92%;
+    --gel-border-hue: var(--gel-hue);
+    --gel-border-sat: var(--gel-saturation);
+
+    appearance: none;
+    -webkit-appearance: none;
+    width: 100%;
+    background: transparent;
+    padding: 0.6rem 0;
+    cursor: pointer;
+    outline: none;
+
+    // ── Track ──────────────────────────────────────────────────────────────────
+
+    &::-webkit-slider-runnable-track {
+        height: 10px;
+        border-radius: 100vmax;
+        border: 1px solid transparent;
+        backdrop-filter: blur(36px) saturate(1.6) brightness(1.05);
+        -webkit-backdrop-filter: blur(36px) saturate(1.6) brightness(1.05);
+        // Hardcoded neutral with padding-box/border-box clips — matches gel-background()
+        // No CSS vars here: they bleed into ::webkit-slider-thumb in WebKit
+        background:
+            linear-gradient(to bottom,
+                hsl(0 0% 90% / 0.95) 0%,
+                hsl(0 0% 86% / 0.80) 18%,
+                hsl(0 0% 80% / 0.35) 34%,
+                transparent 50%
+            ) padding-box,
+            radial-gradient(ellipse 60% 22% at 50% 100%,
+                rgba(255, 255, 255, 0.55) 0%,
+                rgba(255, 255, 255, 0.18) 40%,
+                transparent 70%
+            ) padding-box,
+            linear-gradient(to bottom,
+                hsl(0 0% 92% / 0.28) 0%,
+                hsl(0 0% 88% / 0.48) 52%,
+                hsl(0 0% 92% / 0.28) 100%
+            ) padding-box,
+            linear-gradient(to bottom,
+                hsl(0 0% 30% / 0.75) 0%,
+                hsl(0 0% 40% / 0.62) 100%
+            ) border-box;
+        box-shadow:
+            inset 0 1px 2px rgba(255, 255, 255, 0.40),
+            0 3px 12px rgba(0, 0, 0, 0.14),
+            0 1px 4px rgba(0, 0, 0, 0.10);
+    }
+
+    &::-moz-range-track {
+        height: 10px;
+        border-radius: 100vmax;
+        background: hsl(220 12% 58% / 0.44);
+        border: 1px solid rgba(0, 0, 0, 0.12);
+    }
+
+    // ── Thumb ──────────────────────────────────────────────────────────────────
+
+    &::-webkit-slider-thumb {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 40px;
+        height: 20px;
+        border-radius: 100vmax;
+        margin-top: -5px;
+        border: 1px solid transparent;
+        backdrop-filter: blur(36px) saturate(1.6) brightness(1.05);
+        -webkit-backdrop-filter: blur(36px) saturate(1.6) brightness(1.05);
+        transform: scaleX(var(--gel-thumb-scale-x)) scaleY(var(--gel-thumb-scale-y));
+        transform-origin: center;
+        background: radial-gradient(ellipse 80% 55% at var(--gel-thumb-highlight-x) var(--gel-thumb-highlight-y),
+        rgba(255, 255, 255, calc(0.72 * var(--gel-thumb-specular-opacity))) 0%,
+        rgba(255, 255, 255, calc(0.28 * var(--gel-thumb-specular-opacity))) 28%,
+        transparent 49%) padding-box,
+        linear-gradient(to bottom,
+                hsl(var(--gel-hue) var(--gel-saturation) 90% / 0.95) 0%,
+                hsl(var(--gel-hue) var(--gel-saturation) 86% / 0.80) 18%,
+                hsl(var(--gel-hue) var(--gel-saturation) 80% / 0.35) 34%,
+                transparent 50%
+        ) padding-box,
+        radial-gradient(ellipse 60% 22% at 50% 100%,
+                rgba(255, 255, 255, 0.55) 0%,
+                rgba(255, 255, 255, 0.18) 40%,
+                transparent 70%
+        ) padding-box,
+        linear-gradient(to bottom,
+                hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-top) / var(--gel-body-alpha, 0.28)) 0%,
+                hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness) / var(--gel-body-alpha-mid, 0.48)) 52%,
+                hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-bot) / var(--gel-body-alpha, 0.28)) 100%
+        ) padding-box,
+        linear-gradient(to bottom,
+                hsl(var(--gel-border-hue) var(--gel-border-sat) var(--gel-border-lightness-top, 30%) / 0.75) 0%,
+                hsl(var(--gel-border-hue) var(--gel-border-sat) var(--gel-border-lightness-bot, 40%) / 0.62) 100%
+        ) border-box;
+        box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.45),
+        inset 0 -1px 2px rgba(255, 255, 255, 0.22),
+        0 4px 16px hsl(var(--gel-hue) var(--gel-saturation) 50% / 0.30),
+        0 2px 6px rgba(0, 0, 0, 0.10);
+    }
+
+    &::-moz-range-thumb {
+        width: 40px;
+        height: 20px;
+        border-radius: 100vmax;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        background: hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness) / 0.80);
+        cursor: grab;
+    }
+
+    &:hover::-webkit-slider-thumb {
+        filter: brightness(1.10);
+    }
+
+    &:focus-visible::-webkit-slider-thumb {
+        outline: 2px solid hsl(var(--gel-hue) var(--gel-saturation) 65% / 0.90);
+        outline-offset: 3px;
+    }
 }
 
 
@@ -370,26 +578,15 @@
     backdrop-filter: blur(36px) saturate(1.6) brightness(1.05);
     -webkit-backdrop-filter: blur(36px) saturate(1.6) brightness(1.05);
 
-    background:
-        linear-gradient(to bottom,
-            rgba(255, 255, 255, 0.36) 0%,
-            rgba(255, 255, 255, 0.18) 8%,
-            rgba(255, 255, 255, 0.03) 25%,
-            transparent 40%
-        ) padding-box,
-        radial-gradient(ellipse 65% 30% at 50% 100%,
-            rgba(255, 255, 255, 0.10) 0%,
-            transparent 70%
-        ) padding-box,
-        linear-gradient(to bottom,
-            hsl(220 12% 80% / 0.26) 0%,
-            hsl(220 12% 58% / 0.44) 52%,
-            hsl(220 12% 82% / 0.24) 100%
-        ) padding-box,
-        linear-gradient(to bottom,
-            hsl(220 12% 28% / 0.55) 0%,
-            hsl(220 12% 38% / 0.48) 100%
-        ) border-box;
+    --gel-hue: 0;
+    --gel-saturation: 0%;
+    --gel-lightness: 88%;
+    --gel-body-top: 92%;
+    --gel-body-bot: 92%;
+    --gel-border-hue: 0;
+    --gel-border-sat: 0%;
+
+    @include gel-background();
 
     border: 1px solid transparent;
 
@@ -416,9 +613,8 @@
 
     @include gel-fill-background();
 
-    box-shadow:
-        inset 0 1px 2px rgba(255, 255, 255, 0.45),
-        inset 0 -1px 1px rgba(255, 255, 255, 0.12);
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.45),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.12);
 
     transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 
@@ -470,11 +666,10 @@
 
     @include gel-background();
 
-    box-shadow:
-        inset 0 1px 3px rgba(255, 255, 255, 0.45),
-        inset 0 -1px 2px rgba(255, 255, 255, 0.22),
-        0 6px 24px hsl(var(--gel-hue) var(--gel-saturation) 50% / 0.30),
-        0 2px 6px rgba(0, 0, 0, 0.10);
+    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.45),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.22),
+    0 6px 24px hsl(var(--gel-hue) var(--gel-saturation) 50% / 0.30),
+    0 2px 6px rgba(0, 0, 0, 0.10);
 
     transition: background 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease, --gel-specular-opacity 0.2s ease;
 }
@@ -501,7 +696,12 @@
     width: 26px;
     height: 24px;
     opacity: 0;
+    color: rgba(0, 0, 0, 0.78);
     transition: opacity 0.15s ease;
+
+    polyline {
+        stroke: currentColor;
+    }
 }
 
 .gel-checkbox__input:checked ~ .gel-checkbox__box .gel-checkbox__check {
@@ -549,11 +749,10 @@
 
     @include gel-background();
 
-    box-shadow:
-        inset 0 1px 3px rgba(255, 255, 255, 0.45),
-        inset 0 -1px 2px rgba(255, 255, 255, 0.22),
-        0 6px 24px hsl(var(--gel-hue) var(--gel-saturation) 50% / 0.30),
-        0 2px 6px rgba(0, 0, 0, 0.10);
+    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.45),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.22),
+    0 6px 24px hsl(var(--gel-hue) var(--gel-saturation) 50% / 0.30),
+    0 2px 6px rgba(0, 0, 0, 0.10);
 
     transition: background 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease, --gel-specular-opacity 0.2s ease;
 }
@@ -575,7 +774,7 @@
     position: absolute;
     inset: 6px;
     border-radius: 100vmax;
-    background: white;
+    background: rgba(0, 0, 0, 0.78);
     opacity: 0;
     transform: scale(0.5);
     transition: opacity 0.15s ease, transform 0.15s ease;
@@ -596,7 +795,7 @@
 .gel-violet {
     --gel-hue: 280;
     --gel-saturation: 75%;
-    --gel-lightness: 72%;   // raised from 65% — passes AA in dark mode
+    --gel-lightness: 72%; // raised from 65% — passes AA in dark mode
     --gel-body-top: 84%;
     --gel-body-bot: 82%;
     --gel-body-alpha: 0.50;
@@ -628,7 +827,7 @@
 .gel-ruby {
     --gel-hue: 0;
     --gel-saturation: 85%;
-    --gel-lightness: 70%;   // raised from 65% — passes AA in dark mode
+    --gel-lightness: 70%; // raised from 65% — passes AA in dark mode
     --gel-body-top: 82%;
     --gel-body-bot: 80%;
     --gel-body-alpha: 0.50;
@@ -644,7 +843,6 @@
     --gel-body-alpha: 0.50;
     --gel-body-alpha-mid: 0.70;
 }
-
 
 
 // ─── Light mode overrides ─────────────────────────────────────────────────────
@@ -665,3 +863,4 @@
     --gel-lightness: 88%;
     --gel-body-bot: 92%;
 }
+

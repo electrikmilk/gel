@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<div id="gel-cursor" aria-hidden="true"></div>
+<div id="gel-cursor" class="gel" aria-hidden="true"></div>
 
 <button class="gel theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">☀</button>
 
@@ -25,7 +25,7 @@
 <main class="demo">
     <section class="hero">
         <p class="hero-eyebrow">Liquid glass alternative for the web</p>
-        <h1 class="gel gel-ocean hero-title">Gel</h1>
+        <h1 class="gel hero-title">Gel</h1>
         <p class="hero-tagline">The original liquid glass.</p>
         <p class="hero-subtitle">
             Translucent frosted surfaces, underdamped spring physics, and
@@ -33,8 +33,7 @@
             a decade of Apple design — composable CSS&nbsp;+&nbsp;JS components.
         </p>
         <div class="hero-actions">
-            <button class="gel gel-ocean">Get started</button>
-            <a href="#explore" class="gel">Explore</a>
+            <a href="#explore" class="gel gel-lg gel-ocean">Explore</a>
         </div>
         <div class="hero-features">
             <div class="hero-feature">
@@ -93,6 +92,14 @@
             <div class="gel-input-wrapper gel-surface gel-ocean">
                 <input class="gel-input" type="text" placeholder="Ocean…" aria-label="Ocean input"/>
             </div>
+        </div>
+
+        <p class="demo-label">Range</p>
+
+        <div class="demo-column">
+            <input type="range" class="gel-range gel-ocean" min="0" max="100" value="65" aria-label="Ocean range"/>
+            <input type="range" class="gel-range gel-violet" min="0" max="100" value="40" aria-label="Violet range"/>
+            <input type="range" class="gel-range gel-ruby" min="0" max="100" value="22" aria-label="Ruby range"/>
         </div>
 
         <p class="demo-label">Sliders</p>
