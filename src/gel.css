@@ -65,9 +65,9 @@
        --gel-border-hue / --gel-border-sat: border accent hue (defaults to body hue) */
     --gel-hue: 280;
     --gel-saturation: 75%;
-    --gel-lightness: 55%;
-    --gel-body-top: 80%;
-    --gel-body-bot: 68%;
+    --gel-lightness: 67%;
+    --gel-body-top: 60%;
+    --gel-body-bot: 84%;
     --gel-border-hue: var(--gel-hue);
     --gel-border-sat: var(--gel-saturation);
 
@@ -76,7 +76,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem 1.25rem;
+    padding: 0.42rem 1.6rem;
     border-radius: 100vmax;
 
     /* --- layered gel appearance (front to back) ---
@@ -92,9 +92,9 @@
     ) padding-box,
     radial-gradient(
             ellipse 96% 62% at 50% 0%,
-            hsl(var(--gel-hue) var(--gel-saturation) 93% / 0.88) 0%,
-            hsl(var(--gel-hue) var(--gel-saturation) 88% / 0.58) 28%,
-            hsl(var(--gel-hue) var(--gel-saturation) 83% / 0.16) 60%,
+            hsl(var(--gel-hue) var(--gel-saturation) 82% / 0.90) 0%,
+            hsl(var(--gel-hue) var(--gel-saturation) 76% / 0.60) 28%,
+            hsl(var(--gel-hue) var(--gel-saturation) 70% / 0.16) 60%,
             transparent 80%
     ) padding-box,
     radial-gradient(
@@ -126,7 +126,7 @@
     /* --- text --- */
     color: white;
     font-weight: 500;
-    text-shadow: 0 1px 3px hsl(var(--gel-hue) var(--gel-saturation) 30% / 0.45);
+    text-shadow: 0 1px 2px hsl(var(--gel-hue) var(--gel-saturation) 20% / 0.50);
 
     transition: box-shadow 0.25s ease, filter 0.2s ease, --gel-specular-opacity 0.2s ease;
 
@@ -203,9 +203,9 @@
     ) padding-box,
     radial-gradient(
             ellipse 96% 62% at 50% 0%,
-            hsl(var(--gel-hue) var(--gel-saturation) 93% / 0.75) 0%,
-            hsl(var(--gel-hue) var(--gel-saturation) 88% / 0.48) 28%,
-            hsl(var(--gel-hue) var(--gel-saturation) 83% / 0.12) 60%,
+            hsl(var(--gel-hue) var(--gel-saturation) 82% / 0.78) 0%,
+            hsl(var(--gel-hue) var(--gel-saturation) 76% / 0.48) 28%,
+            hsl(var(--gel-hue) var(--gel-saturation) 70% / 0.12) 60%,
             transparent 80%
     ) padding-box,
     linear-gradient(
@@ -327,9 +327,9 @@
 .gel-slider__fill {
     --gel-hue: 280;
     --gel-saturation: 75%;
-    --gel-lightness: 55%;
-    --gel-body-top: 80%;
-    --gel-body-bot: 68%;
+    --gel-lightness: 67%;
+    --gel-body-top: 60%;
+    --gel-body-bot: 84%;
 
     position: absolute;
     left: 0;
@@ -458,9 +458,9 @@
 .gel-progress__fill {
     --gel-hue: 280;
     --gel-saturation: 75%;
-    --gel-lightness: 55%;
-    --gel-body-top: 80%;
-    --gel-body-bot: 68%;
+    --gel-lightness: 67%;
+    --gel-body-top: 60%;
+    --gel-body-bot: 84%;
 
     position: absolute;
     left: 0;
@@ -540,9 +540,9 @@
     height: 28px;
     border-radius: 7px;
     overflow: visible;
-    --gel-lightness: 55%;
-    --gel-body-top: 80%;
-    --gel-body-bot: 68%;
+    --gel-lightness: 67%;
+    --gel-body-top: 60%;
+    --gel-body-bot: 84%;
 
     border: 1px solid transparent;
     backdrop-filter: blur(24px) saturate(1.8) brightness(1.04);
@@ -556,9 +556,9 @@
     ) padding-box,
     radial-gradient(
             ellipse 96% 62% at 50% 0%,
-            hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) 93% / 0.85) 0%,
-            hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) 88% / 0.55) 28%,
-            hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) 83% / 0.14) 60%,
+            rgba(255, 255, 255, 0.78) 0%,
+            rgba(255, 255, 255, 0.50) 28%,
+            rgba(255, 255, 255, 0.12) 60%,
             transparent 80%
     ) padding-box,
     radial-gradient(
@@ -638,9 +638,9 @@
     height: 28px;
     border-radius: 100vmax;
     overflow: visible;
-    --gel-lightness: 55%;
-    --gel-body-top: 80%;
-    --gel-body-bot: 68%;
+    --gel-lightness: 67%;
+    --gel-body-top: 60%;
+    --gel-body-bot: 84%;
 
     border: 1px solid transparent;
     backdrop-filter: blur(24px) saturate(1.8) brightness(1.04);
@@ -654,9 +654,9 @@
     ) padding-box,
     radial-gradient(
             ellipse 96% 62% at 50% 0%,
-            hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) 93% / 0.85) 0%,
-            hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) 88% / 0.55) 28%,
-            hsl(var(--gel-hue, 214) var(--gel-saturation, 85%) 83% / 0.14) 60%,
+            rgba(255, 255, 255, 0.78) 0%,
+            rgba(255, 255, 255, 0.50) 28%,
+            rgba(255, 255, 255, 0.12) 60%,
             transparent 80%
     ) padding-box,
     radial-gradient(
@@ -710,6 +710,19 @@
 
 
 /* ------------------------------------------------------------------ */
+/* Gel color palette                                                    */
+/* Apply any of these to a gel element instead of inline custom vars.  */
+/* ------------------------------------------------------------------ */
+
+.gel-violet  { --gel-hue: 280; --gel-saturation: 75%; }
+.gel-ocean   { --gel-hue: 210; --gel-saturation: 62%; --gel-border-hue: 257; --gel-border-sat: 87%; }
+.gel-moss    { --gel-hue: 88;  --gel-saturation: 55%; }
+.gel-ruby    { --gel-hue: 0;   --gel-saturation: 85%; }
+.gel-amber   { --gel-hue: 38;  --gel-saturation: 90%; }
+.gel-neutral { --gel-hue: 220; --gel-saturation: 15%; }
+
+
+/* ------------------------------------------------------------------ */
 /* Light mode overrides                                                 */
 /* ------------------------------------------------------------------ */
 
@@ -726,6 +739,14 @@
 /* Light mode gel buttons — lighter, more pastel body with black text.
    !important on --gel-lightness beats inline dark-mode overrides
    (e.g. Ocean's --gel-lightness: 40%, Mint's --gel-lightness: 38%). */
+/* Dark mode: darken body so white text has sufficient contrast */
+[data-theme="dark"] .gel {
+    --gel-body-top: 46%;
+    --gel-lightness: 48%;
+    --gel-body-bot: 62%;
+}
+
+/* Light mode: lift body to pastel and switch to black text */
 [data-theme="light"] .gel {
     --gel-body-top: 90%;
     --gel-lightness: 72% !important;
