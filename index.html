@@ -25,7 +25,7 @@
 <main class="demo">
     <section class="hero">
         <p class="hero-eyebrow">Liquid glass alternative for the web</p>
-        <h1 class="hero-title">Gel</h1>
+        <h1 class="gel gel-ocean hero-title">Gel</h1>
         <p class="hero-tagline">The original liquid glass.</p>
         <p class="hero-subtitle">
             Translucent frosted surfaces, underdamped spring physics, and
@@ -34,7 +34,7 @@
         </p>
         <div class="hero-actions">
             <button class="gel gel-ocean">Get started</button>
-            <button class="gel">Explore</button>
+            <a href="#explore" class="gel">Explore</a>
         </div>
         <div class="hero-features">
             <div class="hero-feature">
@@ -57,131 +57,137 @@
         </div>
     </section>
 
-    <div class="demo-row">
-        <button class="gel">Cancel</button>
-        <button class="gel gel-ocean">OK</button>
-        <button class="gel gel-ruby">Delete</button>
-        <button class="gel gel-moss">Save</button>
-    </div>
+    <section id="explore" class="explore">
+        <p class="demo-label">Buttons</p>
 
-    <div class="demo-row">
-        <button class="gel gel-violet">Violet</button>
-        <button class="gel gel-ocean">Ocean</button>
-        <button class="gel gel-moss">Moss</button>
-        <button class="gel gel-ruby">Ruby</button>
-        <button class="gel gel-amber">Amber</button>
-    </div>
-
-    <div class="demo-row">
-        <button class="gel gel-violet gel-sm">Small</button>
-        <button class="gel gel-violet gel-lg">Large</button>
-        <button class="gel">Neutral</button>
-    </div>
-
-    <p class="demo-label">Inputs</p>
-
-    <div class="demo-row">
-        <div class="gel-input-wrapper gel-surface">
-            <input class="gel-input" type="text" placeholder="Gel input…" aria-label="Gel input"/>
+        <div class="demo-row">
+            <button class="gel">Cancel</button>
+            <button class="gel gel-ocean">OK</button>
+            <button class="gel gel-ruby">Delete</button>
+            <button class="gel gel-moss">Save</button>
         </div>
-        <div class="gel-input-wrapper gel-surface gel-ruby">
-            <input class="gel-input" type="text" placeholder="Required" aria-label="Required input"/>
-        </div>
-        <div class="gel-input-wrapper gel-surface gel-ocean">
-            <input class="gel-input" type="text" placeholder="Ocean…" aria-label="Ocean input"/>
-        </div>
-    </div>
 
-    <p class="demo-label">Sliders</p>
+        <div class="demo-row">
+            <button class="gel gel-violet">Violet</button>
+            <button class="gel gel-ocean">Ocean</button>
+            <button class="gel gel-moss">Moss</button>
+            <button class="gel gel-ruby">Ruby</button>
+            <button class="gel gel-amber">Amber</button>
+        </div>
 
-    <div class="demo-column">
-        <div class="gel-slider" data-gel-slider role="slider" aria-label="Violet slider" aria-valuemin="0"
-             aria-valuemax="100" aria-valuenow="40"
-             tabindex="0">
-            <div class="gel-slider__track">
-                <div class="gel-slider__fill gel-violet"></div>
-                <div class="gel-slider__thumb-positioner">
-                    <div class="gel gel-slider__thumb gel-violet"></div>
+        <div class="demo-row">
+            <button class="gel gel-violet gel-sm">Small</button>
+            <button class="gel gel-violet gel-lg">Large</button>
+            <button class="gel">Neutral</button>
+        </div>
+
+        <p class="demo-label">Inputs</p>
+
+        <div class="demo-row">
+            <div class="gel-input-wrapper gel-surface">
+                <input class="gel-input" type="text" placeholder="Gel input…" aria-label="Gel input"/>
+            </div>
+            <div class="gel-input-wrapper gel-surface gel-ruby">
+                <input class="gel-input" type="text" placeholder="Required" aria-label="Required input"/>
+            </div>
+            <div class="gel-input-wrapper gel-surface gel-ocean">
+                <input class="gel-input" type="text" placeholder="Ocean…" aria-label="Ocean input"/>
+            </div>
+        </div>
+
+        <p class="demo-label">Sliders</p>
+
+        <div class="demo-column">
+            <div class="gel-slider" data-gel-slider role="slider" aria-label="Violet slider" aria-valuemin="0"
+                 aria-valuemax="100" aria-valuenow="40"
+                 tabindex="0">
+                <div class="gel-slider__track">
+                    <div class="gel-slider__fill gel-violet"></div>
+                    <div class="gel-slider__thumb-positioner">
+                        <div class="gel gel-slider__thumb gel-violet"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="gel-slider" data-gel-slider role="slider" aria-label="Ocean slider" aria-valuemin="0"
+                 aria-valuemax="100" aria-valuenow="65"
+                 tabindex="0">
+                <div class="gel-slider__track">
+                    <div class="gel-slider__fill gel-ocean"></div>
+                    <div class="gel-slider__thumb-positioner">
+                        <div class="gel gel-slider__thumb gel-ocean"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="gel-slider" data-gel-slider role="slider" aria-label="Ruby slider" aria-valuemin="0"
+                 aria-valuemax="100" aria-valuenow="22"
+                 tabindex="0">
+                <div class="gel-slider__track">
+                    <div class="gel-slider__fill gel-ruby"></div>
+                    <div class="gel-slider__thumb-positioner">
+                        <div class="gel gel-slider__thumb gel-ruby"></div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="gel-slider" data-gel-slider role="slider" aria-label="Ocean slider" aria-valuemin="0"
-             aria-valuemax="100" aria-valuenow="65"
-             tabindex="0">
-            <div class="gel-slider__track">
-                <div class="gel-slider__fill gel-ocean"></div>
-                <div class="gel-slider__thumb-positioner">
-                    <div class="gel gel-slider__thumb gel-ocean"></div>
-                </div>
-            </div>
-        </div>
-        <div class="gel-slider" data-gel-slider role="slider" aria-label="Ruby slider" aria-valuemin="0"
-             aria-valuemax="100" aria-valuenow="22"
-             tabindex="0">
-            <div class="gel-slider__track">
-                <div class="gel-slider__fill gel-ruby"></div>
-                <div class="gel-slider__thumb-positioner">
-                    <div class="gel gel-slider__thumb gel-ruby"></div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <p class="demo-label">Checkboxes</p>
-    <div class="demo-row">
-        <label class="gel-checkbox gel-ocean">
-            <input type="checkbox" class="gel-checkbox__input" aria-label="Checkbox"/>
-            <span class="gel-checkbox__box gel-surface">
+        <p class="demo-label">Checkboxes</p>
+        <div class="demo-row">
+            <label class="gel-checkbox gel-ocean">
+                <input type="checkbox" class="gel-checkbox__input" aria-label="Checkbox"/>
+                <span class="gel-checkbox__box gel-surface">
                 <svg class="gel-checkbox__check" viewBox="0 0 12 10" fill="none">
                     <polyline points="1,6 4,9 11,1" stroke="white" stroke-width="2" stroke-linecap="round"
                               stroke-linejoin="round"/>
                 </svg>
             </span>
-        </label>
+            </label>
 
-        <label class="gel-checkbox gel-ocean">
-            <input type="checkbox" class="gel-checkbox__input" checked aria-label="Checkbox"/>
-            <span class="gel-checkbox__box gel-surface">
+            <label class="gel-checkbox gel-ocean">
+                <input type="checkbox" class="gel-checkbox__input" checked aria-label="Checkbox"/>
+                <span class="gel-checkbox__box gel-surface">
                 <svg class="gel-checkbox__check" viewBox="0 0 12 10" fill="none">
                     <polyline points="1,6 4,9 11,1" stroke="white" stroke-width="2" stroke-linecap="round"
                               stroke-linejoin="round"/>
                 </svg>
             </span>
-        </label>
-    </div>
+            </label>
+        </div>
 
-    <p class="demo-label">Radio buttons</p>
-    <div class="demo-row">
-        <label class="gel-radio gel-ocean">
-            <input type="radio" name="gel-radio-demo" class="gel-radio__input" aria-label="Radio button"/>
-            <span class="gel-radio__box gel-surface"><span class="gel-radio__dot"></span></span>
-        </label>
-        <label class="gel-radio gel-ocean">
-            <input type="radio" name="gel-radio-demo" class="gel-radio__input" checked aria-label="Radio button"/>
-            <span class="gel-radio__box gel-surface"><span class="gel-radio__dot"></span></span>
-        </label>
-    </div>
+        <p class="demo-label">Radio buttons</p>
+        <div class="demo-row">
+            <label class="gel-radio gel-ocean">
+                <input type="radio" name="gel-radio-demo" class="gel-radio__input" aria-label="Radio button"/>
+                <span class="gel-radio__box gel-surface"><span class="gel-radio__dot"></span></span>
+            </label>
+            <label class="gel-radio gel-ocean">
+                <input type="radio" name="gel-radio-demo" class="gel-radio__input" checked aria-label="Radio button"/>
+                <span class="gel-radio__box gel-surface"><span class="gel-radio__dot"></span></span>
+            </label>
+        </div>
 
-    <p class="demo-label">Progress</p>
+        <p class="demo-label">Progress</p>
 
-    <div class="demo-column">
-        <div class="gel-progress" role="progressbar" aria-label="Violet progress" aria-valuenow="65" aria-valuemin="0"
-             aria-valuemax="100">
-            <div class="gel-progress__fill gel-violet" style="width: 65%"></div>
+        <div class="demo-column">
+            <div class="gel-progress" role="progressbar" aria-label="Violet progress" aria-valuenow="65"
+                 aria-valuemin="0"
+                 aria-valuemax="100">
+                <div class="gel-progress__fill gel-violet" style="width: 65%"></div>
+            </div>
+            <div class="gel-progress" role="progressbar" aria-label="Moss progress" aria-valuenow="38" aria-valuemin="0"
+                 aria-valuemax="100">
+                <div class="gel-progress__fill gel-moss" style="width: 38%"></div>
+            </div>
+            <div class="gel-progress" role="progressbar" aria-label="Ruby progress" aria-valuenow="82" aria-valuemin="0"
+                 aria-valuemax="100">
+                <div class="gel-progress__fill gel-ruby" style="width: 82%"></div>
+            </div>
+            <div class="gel-progress" role="progressbar" aria-label="Amber progress" aria-valuenow="51"
+                 aria-valuemin="0"
+                 aria-valuemax="100">
+                <div class="gel-progress__fill gel-amber" style="width: 51%"></div>
+            </div>
         </div>
-        <div class="gel-progress" role="progressbar" aria-label="Moss progress" aria-valuenow="38" aria-valuemin="0"
-             aria-valuemax="100">
-            <div class="gel-progress__fill gel-moss" style="width: 38%"></div>
-        </div>
-        <div class="gel-progress" role="progressbar" aria-label="Ruby progress" aria-valuenow="82" aria-valuemin="0"
-             aria-valuemax="100">
-            <div class="gel-progress__fill gel-ruby" style="width: 82%"></div>
-        </div>
-        <div class="gel-progress" role="progressbar" aria-label="Amber progress" aria-valuenow="51" aria-valuemin="0"
-             aria-valuemax="100">
-            <div class="gel-progress__fill gel-amber" style="width: 51%"></div>
-        </div>
-    </div>
+    </section>
 </main>
 
 <script type="module" src="/src/main.js"></script>
