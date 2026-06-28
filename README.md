@@ -1,4 +1,7 @@
-<img width="467" height="227" alt="Screenshot 2026-06-28 at 17 44 58" src="https://github.com/user-attachments/assets/17ee0e89-7860-4432-87d3-9c6accd1774f" />
+<p align="center">
+  <img width="800" height="319" alt="ezgif-6ee0f17f0989e7b3" src="https://github.com/user-attachments/assets/c915abba-92f4-4dc2-8c67-45a15853233a" />
+</p>
+
 
 # Gel
 
