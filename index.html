@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<h1 class="demo-title">Gel</h1>
+<div id="gel-cursor" aria-hidden="true"></div>
 
 <button class="gel theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">☀</button>
 
@@ -23,9 +23,36 @@
 </div>
 
 <main class="demo">
-    <div style="display: flex;height: 75vh;justify-content: center;align-items: center">
-        <button class="gel gel-lg">Gel</button>
-    </div>
+    <section class="hero">
+        <p class="hero-eyebrow">Aqua · reimagined for the web</p>
+        <h1 class="hero-title">Gel</h1>
+        <p class="hero-tagline">The original liquid glass.</p>
+        <p class="hero-subtitle">
+            Translucent frosted surfaces, underdamped spring physics, and
+            gradient layers faithful to the OS&nbsp;X aesthetic that defined
+            a decade of Apple design — composable CSS&nbsp;+&nbsp;JS components.
+        </p>
+        <div class="hero-actions">
+            <button class="gel gel-ocean">Get started</button>
+            <button class="gel">Explore</button>
+        </div>
+        <div class="hero-features">
+            <div class="hero-feature">
+                <p class="hero-feature-title">Frosted glass</p>
+                <p class="hero-feature-desc">backdrop-filter lets your scene bleed through every surface, blurred and tinted by the gel body</p>
+            </div>
+            <div class="hero-feature-divider"></div>
+            <div class="hero-feature">
+                <p class="hero-feature-title">Spring physics</p>
+                <p class="hero-feature-desc">Buttons squish on press, snap back with overshoot, and a specular glint trails your pointer</p>
+            </div>
+            <div class="hero-feature-divider"></div>
+            <div class="hero-feature">
+                <p class="hero-feature-title">Aqua gradients</p>
+                <p class="hero-feature-desc">Tinted gloss caps, bottom rim catch-lights, and layered body gradients true to OS&nbsp;X 10.1</p>
+            </div>
+        </div>
+    </section>
 
     <div class="demo-row">
         <button class="gel">Cancel</button>
