@@ -68,7 +68,7 @@
 // Color is driven by CSS custom properties on the element; SCSS only eliminates
 // the repetition of the layer stack itself.
 //
-// Default body alpha ~0.72 ("3/4 opaque") so frosted glass shows backdrop at ~28%.
+// Default body alpha ~0.16 ("mostly transparent") so the backdrop shows through at ~84%.
 // Palette classes override --gel-body-alpha and --gel-body-alpha-mid for vivid variants.
 
 @mixin gel-background() {
@@ -97,9 +97,9 @@
                 // 4. Tinted body — frosted translucent core
             linear-gradient(
                     to bottom,
-                    hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-top) / var(--gel-body-alpha, 0.28)) 0%,
-                    hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness)  / var(--gel-body-alpha-mid, 0.48)) 52%,
-                    hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-bot)   / var(--gel-body-alpha, 0.28)) 100%
+                    hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-top) / var(--gel-body-alpha, 0.16)) 0%,
+                    hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness)  / var(--gel-body-alpha-mid, 0.30)) 52%,
+                    hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-bot)   / var(--gel-body-alpha, 0.16)) 100%
             ) padding-box,
                 // 5. Gradient border
             linear-gradient(
@@ -125,9 +125,9 @@
             transparent 70%
     ),
     linear-gradient(to bottom,
-            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-top) / var(--gel-body-alpha, 0.28)) 0%,
-            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness) / var(--gel-body-alpha-mid, 0.48)) 52%,
-            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-bot) / var(--gel-body-alpha, 0.28)) 100%
+            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-top) / var(--gel-body-alpha, 0.16)) 0%,
+            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness) / var(--gel-body-alpha-mid, 0.30)) 52%,
+            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-bot) / var(--gel-body-alpha, 0.16)) 100%
     );
 }
 
@@ -149,9 +149,9 @@
     ),
     linear-gradient(
             to bottom,
-            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-top) / var(--gel-body-alpha, 0.28)) 0%,
-            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness)  / var(--gel-body-alpha-mid, 0.48)) 52%,
-            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-bot)   / var(--gel-body-alpha, 0.28)) 100%
+            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-top) / var(--gel-body-alpha, 0.16)) 0%,
+            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness)  / var(--gel-body-alpha-mid, 0.30)) 52%,
+            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-bot)   / var(--gel-body-alpha, 0.16)) 100%
     );
 }
 
@@ -179,8 +179,8 @@
 
 .gel,
 .gel-surface {
-    backdrop-filter: blur(36px) saturate(1.6) brightness(1.05);
-    -webkit-backdrop-filter: blur(36px) saturate(1.6) brightness(1.05);
+    backdrop-filter: blur(14px) saturate(1.6) brightness(1.05);
+    -webkit-backdrop-filter: blur(14px) saturate(1.6) brightness(1.05);
     filter: brightness(1);
     --gel-specular-opacity: 0;
 
@@ -296,8 +296,8 @@ a.gel {
     --gel-body-bot: 68%;
     --gel-border-hue: var(--gel-hue);
     --gel-border-sat: var(--gel-saturation);
-    --gel-body-alpha: 0.38;
-    --gel-body-alpha-mid: 0.60;
+    --gel-body-alpha: 0.24;
+    --gel-body-alpha-mid: 0.40;
 
     position: relative;
     display: inline-flex;
@@ -369,8 +369,8 @@ a.gel {
     height: 10px;
     border-radius: 100vmax;
 
-    backdrop-filter: blur(36px) saturate(1.6) brightness(1.05);
-    -webkit-backdrop-filter: blur(36px) saturate(1.6) brightness(1.05);
+    backdrop-filter: blur(14px) saturate(1.6) brightness(1.05);
+    -webkit-backdrop-filter: blur(14px) saturate(1.6) brightness(1.05);
 
     @include gel-background();
 
@@ -463,8 +463,8 @@ a.gel {
         height: 10px;
         border-radius: 100vmax;
         border: 1px solid transparent;
-        backdrop-filter: blur(36px) saturate(1.6) brightness(1.05);
-        -webkit-backdrop-filter: blur(36px) saturate(1.6) brightness(1.05);
+        backdrop-filter: blur(14px) saturate(1.6) brightness(1.05);
+        -webkit-backdrop-filter: blur(14px) saturate(1.6) brightness(1.05);
         // Hardcoded neutral with padding-box/border-box clips — matches gel-background()
         // No CSS vars here: they bleed into ::webkit-slider-thumb in WebKit
         background: linear-gradient(to bottom,
@@ -479,9 +479,9 @@ a.gel {
                 transparent 70%
         ) padding-box,
         linear-gradient(to bottom,
-                hsl(0 0% 92% / 0.28) 0%,
-                hsl(0 0% 88% / 0.48) 52%,
-                hsl(0 0% 92% / 0.28) 100%
+                hsl(0 0% 92% / 0.16) 0%,
+                hsl(0 0% 88% / 0.30) 52%,
+                hsl(0 0% 92% / 0.16) 100%
         ) padding-box,
         linear-gradient(to bottom,
                 hsl(0 0% 30% / 0.75) 0%,
@@ -509,8 +509,8 @@ a.gel {
         border-radius: 100vmax;
         margin-top: -5px;
         border: 1px solid transparent;
-        backdrop-filter: blur(36px) saturate(1.6) brightness(1.05);
-        -webkit-backdrop-filter: blur(36px) saturate(1.6) brightness(1.05);
+        backdrop-filter: blur(14px) saturate(1.6) brightness(1.05);
+        -webkit-backdrop-filter: blur(14px) saturate(1.6) brightness(1.05);
         transform: scaleX(var(--gel-thumb-scale-x)) scaleY(var(--gel-thumb-scale-y));
         transform-origin: center;
         background: radial-gradient(ellipse 80% 55% at var(--gel-thumb-highlight-x) var(--gel-thumb-highlight-y),
@@ -529,9 +529,9 @@ a.gel {
                 transparent 70%
         ) padding-box,
         linear-gradient(to bottom,
-                hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-top) / var(--gel-body-alpha, 0.28)) 0%,
-                hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness) / var(--gel-body-alpha-mid, 0.48)) 52%,
-                hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-bot) / var(--gel-body-alpha, 0.28)) 100%
+                hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-top) / var(--gel-body-alpha, 0.16)) 0%,
+                hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness) / var(--gel-body-alpha-mid, 0.30)) 52%,
+                hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-bot) / var(--gel-body-alpha, 0.16)) 100%
         ) padding-box,
         linear-gradient(to bottom,
                 hsl(var(--gel-border-hue) var(--gel-border-sat) var(--gel-border-lightness-top, 30%) / 0.75) 0%,
@@ -572,8 +572,8 @@ a.gel {
     border-radius: 100vmax;
     overflow: hidden;
 
-    backdrop-filter: blur(36px) saturate(1.6) brightness(1.05);
-    -webkit-backdrop-filter: blur(36px) saturate(1.6) brightness(1.05);
+    backdrop-filter: blur(14px) saturate(1.6) brightness(1.05);
+    -webkit-backdrop-filter: blur(14px) saturate(1.6) brightness(1.05);
 
     --gel-hue: 0;
     --gel-saturation: 0%;
@@ -657,8 +657,8 @@ a.gel {
     --gel-border-sat: 0%;
 
     border: 1px solid transparent;
-    backdrop-filter: blur(36px) saturate(1.6) brightness(1.05);
-    -webkit-backdrop-filter: blur(36px) saturate(1.6) brightness(1.05);
+    backdrop-filter: blur(14px) saturate(1.6) brightness(1.05);
+    -webkit-backdrop-filter: blur(14px) saturate(1.6) brightness(1.05);
 
     @include gel-background();
 
@@ -740,8 +740,8 @@ a.gel {
     --gel-border-sat: 0%;
 
     border: 1px solid transparent;
-    backdrop-filter: blur(36px) saturate(1.6) brightness(1.05);
-    -webkit-backdrop-filter: blur(36px) saturate(1.6) brightness(1.05);
+    backdrop-filter: blur(14px) saturate(1.6) brightness(1.05);
+    -webkit-backdrop-filter: blur(14px) saturate(1.6) brightness(1.05);
 
     @include gel-background();
 
@@ -785,8 +785,9 @@ a.gel {
 // ─── Palette classes ──────────────────────────────────────────────────────────
 //
 // Each class sets the hue/saturation plus the lightness/alpha values tuned for
-// WCAG AA with dark text in both light and dark mode (backdrop-blur blends ~28%
-// of the backdrop in; values below ensure ≥4.5:1 in the worst-case dark scene).
+// WCAG AA with dark text in both light and dark mode. Body alpha is intentionally
+// low (~0.34/0.50) for a see-through gel look — re-check contrast against very
+// dark scenes if a stricter guarantee is needed.
 
 .gel-violet {
     --gel-hue: 280;
@@ -794,8 +795,8 @@ a.gel {
     --gel-lightness: 72%; // raised from 65% — passes AA in dark mode
     --gel-body-top: 84%;
     --gel-body-bot: 82%;
-    --gel-body-alpha: 0.50;
-    --gel-body-alpha-mid: 0.70;
+    --gel-body-alpha: 0.34;
+    --gel-body-alpha-mid: 0.50;
 }
 
 .gel-ocean {
@@ -806,8 +807,8 @@ a.gel {
     --gel-body-bot: 75%;
     --gel-border-hue: 210;
     --gel-border-sat: 100%;
-    --gel-body-alpha: 0.50;
-    --gel-body-alpha-mid: 0.70;
+    --gel-body-alpha: 0.34;
+    --gel-body-alpha-mid: 0.50;
 }
 
 .gel-moss {
@@ -816,8 +817,8 @@ a.gel {
     --gel-lightness: 65%;
     --gel-body-top: 80%;
     --gel-body-bot: 79%;
-    --gel-body-alpha: 0.50;
-    --gel-body-alpha-mid: 0.70;
+    --gel-body-alpha: 0.34;
+    --gel-body-alpha-mid: 0.50;
 }
 
 .gel-ruby {
@@ -826,8 +827,8 @@ a.gel {
     --gel-lightness: 70%; // raised from 65% — passes AA in dark mode
     --gel-body-top: 82%;
     --gel-body-bot: 80%;
-    --gel-body-alpha: 0.50;
-    --gel-body-alpha-mid: 0.70;
+    --gel-body-alpha: 0.34;
+    --gel-body-alpha-mid: 0.50;
 }
 
 .gel-amber {
@@ -836,8 +837,8 @@ a.gel {
     --gel-lightness: 65%;
     --gel-body-top: 80%;
     --gel-body-bot: 79%;
-    --gel-body-alpha: 0.50;
-    --gel-body-alpha-mid: 0.70;
+    --gel-body-alpha: 0.34;
+    --gel-body-alpha-mid: 0.50;
 }
 
 
