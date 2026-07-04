@@ -45,7 +45,7 @@ The gradient layers, backdrop filter, shadows, and toggle boilerplate are each d
 | Mixin | Layers | Used by |
 |---|---|---|
 | `gel-background($highlight-x, $highlight-y, $specular-opacity)` | specular + gloss + rim + body + border (all `padding-box`/`border-box`) | `.gel`, `.gel-input-wrapper`, track/panel/checkbox/radio surfaces, range thumb (with `--gel-thumb-*` args) |
-| `gel-fill-background()` | gloss + rim + body (no clips, no border) | `.gel-slider__fill`, `.gel-progress__fill` |
+| `gel-fill-background($body-alpha, $body-alpha-mid)` | gloss + rim + body (no clips, no border) | `.gel-slider__fill`, `.gel-progress__fill` (default `0.55`/`0.80`). Paired with `gel-backdrop-filter()`. Body alpha is a fixed literal, not the `--gel-body-alpha` theme token — fills have no border ring or colored glow to anchor the hue the way buttons/thumb do, and sit over a flat neutral track instead of a rich scene, so they need bolder color of their own to read as progress rather than tinted white |
 | `gel-shimmer-layer($dur, $delay)` | diagonal shimmer `::after` | `.gel::after`, fill `::after` |
 | `gel-backdrop-filter()` | `backdrop-filter`/`-webkit-backdrop-filter` blur+saturate+brightness | every gel surface |
 | `gel-range-track-neutral-background($body-alpha)` | same 4 layers as `gel-fill-background()` but with a literal (non-custom-property) body alpha | `.gel-range::-webkit-slider-runnable-track` only |
@@ -70,8 +70,8 @@ All gradient colours are driven by custom properties on the element (via palette
 | `--gel-lightness` | `88%` | Body mid-stop lightness |
 | `--gel-body-top` | `92%` | Top body gradient stop |
 | `--gel-body-bot` | `92%` | Bottom body gradient stop |
-| `--gel-body-alpha` | `0.25` dark / `0.15` light | Body edge opacity (frosted glass transparency) — theme token, not palette-driven, see below |
-| `--gel-body-alpha-mid` | `0.25` dark / `0.15` light | Body centre opacity — theme token, not palette-driven, see below |
+| `--gel-body-alpha` | `0.25` dark / `0.15` light | Body edge opacity (frosted glass transparency) — theme token, not palette-driven, see below. Not used by fills (`gel-fill-background()` hardcodes its own bolder alpha) |
+| `--gel-body-alpha-mid` | `0.25` dark / `0.15` light | Body centre opacity — theme token, not palette-driven, see below. Not used by fills |
 | `--gel-border-hue` | `var(--gel-hue)` | Border accent hue |
 | `--gel-border-sat` | `var(--gel-saturation)` | Border accent saturation |
 | `--gel-border-lightness-top` | `30%` | Border gradient top stop |

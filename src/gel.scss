@@ -128,7 +128,13 @@
 
 // 4-layer variant for fill elements (slider fill, progress fill).
 // No specular tracking, no border — fills sit inside a track.
-@mixin gel-fill-background() {
+//
+// Body alpha is fixed and bold (not the --gel-body-alpha theme token): buttons and
+// the range thumb read as saturated at the ambient glass alpha because their border
+// ring and colored glow shadow anchor the hue. Fills have neither anchor and sit over
+// a flat neutral track instead of a rich scene, so at ambient alpha they read as
+// barely-tinted white — a fill needs to carry its own color to be legible as progress.
+@mixin gel-fill-background($body-alpha: 0.55, $body-alpha-mid: 0.80) {
     background: linear-gradient(
             to bottom,
             hsl(var(--gel-hue) var(--gel-saturation) 90% / 0.95) 0%,
@@ -144,9 +150,9 @@
     ),
     linear-gradient(
             to bottom,
-            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-top) / var(--gel-body-alpha, 0.25)) 0%,
-            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness)  / var(--gel-body-alpha-mid, 0.25)) 52%,
-            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-bot)   / var(--gel-body-alpha, 0.25)) 100%
+            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-top) / #{$body-alpha}) 0%,
+            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-lightness)  / #{$body-alpha-mid}) 52%,
+            hsl(var(--gel-hue) var(--gel-saturation) var(--gel-body-bot)   / #{$body-alpha}) 100%
     );
 }
 
@@ -496,6 +502,8 @@ a.gel {
     border-radius: 100vmax;
     pointer-events: none;
 
+    @include gel-backdrop-filter();
+
     @include gel-fill-background();
 
     @include gel-fill-shine-shadow();
@@ -638,6 +646,8 @@ a.gel {
     bottom: 0;
     width: 65%;
     border-radius: 100vmax;
+
+    @include gel-backdrop-filter();
 
     @include gel-fill-background();
 
