@@ -826,6 +826,37 @@ a.gel-button {
     }
 }
 
+// Custom slider: no native `disabled` concept, so interaction blocking is
+// split between CSS and gel.js (see GelSlider). The outer `.gel-slider`
+// wrapper stays hit-testable (no pointer-events: none) so `cursor: not-allowed`
+// can render on it; the inner track/thumb get pointer-events: none instead —
+// hit-testing falls through them to the wrapper, so the cursor still shows,
+// while the thumb (a `.gel` element with its own Gel.initAll() listeners)
+// stops reacting to hover/press.
+.gel-slider.gel-disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+
+    .gel-slider__track,
+    .gel-slider__thumb {
+        pointer-events: none;
+    }
+
+    .gel-slider__track {
+        @include gel-disabled-shadow();
+    }
+
+    .gel-slider__thumb {
+        @include gel-disabled-shadow();
+    }
+
+    .gel-slider__fill::after,
+    .gel-slider__thumb::after {
+        animation: none;
+        opacity: 0;
+    }
+}
+
 // ─── Palette classes ──────────────────────────────────────────────────────────
 //
 // Each class sets the hue/saturation plus the lightness values tuned for WCAG AA
