@@ -261,6 +261,9 @@ class GelSlider {
         this.#value = parseFloat(el.getAttribute('aria-valuenow') ?? '50');
         this.#render();
         this.#attachListeners();
+        this.#syncDisabledState();
+        new MutationObserver(() => this.#syncDisabledState())
+                .observe(el, {attributes: true, attributeFilter: ['class']});
     }
 
     get #fraction() {
@@ -272,6 +275,16 @@ class GelSlider {
         this.#fillEl.style.width = `${pct}%`;
         this.#positionerEl.style.left = `${pct}%`;
         this.#el.setAttribute('aria-valuenow', String(Math.round(this.#value)));
+    }
+
+    #isDisabled() {
+        return this.#el.classList.contains('gel-disabled');
+    }
+
+    #syncDisabledState() {
+        const disabled = this.#isDisabled();
+        this.#el.setAttribute('tabindex', disabled ? '-1' : '0');
+        this.#el.setAttribute('aria-disabled', String(disabled));
     }
 
     #setValueFromClientX(clientX) {
@@ -289,6 +302,7 @@ class GelSlider {
     }
 
     #onTrackPointerDown = (event) => {
+        if (this.#isDisabled()) return;
         if (event.target.closest('.gel-slider__thumb')) return;
         this.#setValueFromClientX(event.clientX);
         this.#el.focus();
@@ -296,6 +310,7 @@ class GelSlider {
 
     // No preventDefault — allows mousedown/touchstart to propagate so Gel spring physics sees the press.
     #onThumbPointerDown = (event) => {
+        if (this.#isDisabled()) return;
         this.#isDragging = true;
         this.#thumbEl.setPointerCapture(event.pointerId);
         this.#thumbEl.addEventListener('pointermove', this.#onThumbPointerMove);
@@ -314,6 +329,7 @@ class GelSlider {
     };
 
     #onKeyDown = (event) => {
+        if (this.#isDisabled()) return;
         const stepSize = (this.#max - this.#min) / 20;
         const keyActions = {
             ArrowRight: () => {
