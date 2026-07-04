@@ -760,6 +760,71 @@ a.gel-button {
     transform: scale(1);
 }
 
+// ─── Disabled state ───────────────────────────────────────────────────────────
+//
+// Add `.gel-disabled` alongside a component's existing classes to dim it.
+// Native form controls (button, input, checkbox/radio, range) also need the
+// native `disabled` attribute for real interaction blocking — `.gel-disabled`
+// on its own is visual-only for those. The custom slider has no native
+// `disabled` concept, so its interaction blocking lives in gel.js instead
+// (see GelSlider in gel.js).
+
+// Flattened shadow shared by every disabled surface: no colored glow, no
+// bright inset highlights — just enough depth to still read as a surface.
+@mixin gel-disabled-shadow() {
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.15),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.06),
+    0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+// Buttons and input wrappers carry `.gel`/`.gel-surface` directly, so
+// `.gel-disabled` lands on the same element as the physics-bearing class.
+// `pointer-events: none` stops Gel.initAll()'s mouse listeners from ever
+// firing — no Gel.js changes needed. Cursor stays default/arrow: pointer-events:
+// none removes the element from hit-testing, so its own `cursor` never applies.
+.gel.gel-disabled,
+.gel-surface.gel-disabled {
+    opacity: 0.45;
+    pointer-events: none;
+    @include gel-disabled-shadow();
+
+    &:hover {
+        @include gel-disabled-shadow();
+    }
+
+    &::after {
+        animation: none;
+        opacity: 0;
+    }
+}
+
+// Checkbox/radio boxes are a *child* of the element carrying `.gel-disabled`
+// (the wrapping <label>), not the same element — dim the whole label (box +
+// check/dot together) and stop physics on the box specifically.
+.gel-checkbox.gel-disabled,
+.gel-radio.gel-disabled {
+    opacity: 0.45;
+}
+
+.gel-checkbox.gel-disabled .gel-checkbox__box,
+.gel-radio.gel-disabled .gel-radio__box {
+    pointer-events: none;
+    @include gel-disabled-shadow();
+}
+
+// Native range: the browser handles interaction blocking via the `disabled`
+// attribute, so this is visual-only — no pointer-events needed.
+.gel-range.gel-disabled {
+    opacity: 0.45;
+
+    &::-webkit-slider-runnable-track {
+        @include gel-disabled-shadow();
+    }
+
+    &::-webkit-slider-thumb {
+        @include gel-disabled-shadow();
+    }
+}
 
 // ─── Palette classes ──────────────────────────────────────────────────────────
 //
