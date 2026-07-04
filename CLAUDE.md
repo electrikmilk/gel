@@ -71,8 +71,8 @@ All gradient colours are driven by custom properties on the element (via palette
 | `--gel-lightness` | `88%` | Body mid-stop lightness |
 | `--gel-body-top` | `92%` | Top body gradient stop |
 | `--gel-body-bot` | `92%` | Bottom body gradient stop |
-| `--gel-body-alpha` | `0.25` dark / `0.15` light | Body edge opacity (frosted glass transparency) — theme token, not palette-driven, see below. Not used by fills (`gel-fill-background()` hardcodes its own bolder alpha) |
-| `--gel-body-alpha-mid` | `0.25` dark / `0.15` light | Body centre opacity — theme token, not palette-driven, see below. Not used by fills |
+| `--gel-body-alpha` | `0.25` dark / `0.15` light | Body edge opacity (frosted glass transparency) — theme token, not palette-driven, see below. Not used by fills (`gel-fill-background()` hardcodes its own bolder alpha) or `.gel-input-wrapper` (hardcodes its own fixed `0.24`, independent of theme) |
+| `--gel-body-alpha-mid` | `0.25` dark / `0.15` light | Body centre opacity — theme token, not palette-driven, see below. Not used by fills or `.gel-input-wrapper` (hardcodes its own fixed `0.40`) |
 | `--gel-border-hue` | `var(--gel-hue)` | Border accent hue |
 | `--gel-border-sat` | `var(--gel-saturation)` | Border accent saturation |
 | `--gel-border-lightness-top` | `30%` | Border gradient top stop |
@@ -100,7 +100,7 @@ The 1px coloured border is `border: 1px solid transparent` with a `border-box` b
 
 ### Light/dark mode
 
-`data-theme="dark"` on `<html>` is the default. `main.js` switches it. CSS reads it via `[data-theme="light"]`. The library uses a single set of lightness tokens for both modes — the `backdrop-filter` naturally darkens or lightens the apparent surface based on the scene behind it. `--gel-body-alpha`/`--gel-body-alpha-mid` are the one theme-driven exception: dark scenes need a more opaque body (`0.25`, set at `:root` in the "Theme tokens" section) to stay legible, light scenes read fine at `0.15` (overridden in `[data-theme="light"]`). Because custom properties inherit, no palette class or component needs to set these itself. The native range track can't read the custom property (WebKit bleed), so its light-mode alpha is set directly via `gel-range-track-neutral-background(0.15)`. Besides alpha, the only other light mode overrides are a darker `border-top-color` for depth and slightly lighter input body values.
+`data-theme="dark"` on `<html>` is the default. `main.js` switches it. CSS reads it via `[data-theme="light"]`. The library uses a single set of lightness tokens for both modes — the `backdrop-filter` naturally darkens or lightens the apparent surface based on the scene behind it. `--gel-body-alpha`/`--gel-body-alpha-mid` are the one theme-driven exception: dark scenes need a more opaque body (`0.25`, set at `:root` in the "Theme tokens" section) to stay legible, light scenes read fine at `0.15` (overridden in `[data-theme="light"]`). Because custom properties inherit, no palette class or component needs to set these itself — except `.gel-input-wrapper`, which hardcodes its own fixed `0.24`/`0.40` regardless of theme (an input's body needs to stay legible in both modes, unlike the frosted-glass look elsewhere). The native range track can't read the custom property (WebKit bleed), so its light-mode alpha is set directly via `gel-range-track-neutral-background(0.15)`. Besides alpha, the only other light mode overrides are a darker `border-top-color` for depth and slightly lighter input body values.
 
 ### Gel range (`gel-range`)
 

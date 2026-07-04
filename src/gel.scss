@@ -433,6 +433,8 @@ a.gel-button {
     --gel-body-bot: 68%;
     --gel-border-hue: var(--gel-hue);
     --gel-border-sat: var(--gel-saturation);
+    --gel-body-alpha: 0.24;
+    --gel-body-alpha-mid: 0.40;
 
     position: relative;
     display: inline-flex;
