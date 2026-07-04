@@ -23,11 +23,12 @@ Gel is a CSS/JS component library for macOS Aqua-inspired gel UI elements. No fr
 2. Theme tokens: `:root` sets `--gel-body-alpha`/`--gel-body-alpha-mid` (dark default)
 3. SCSS mixins: `gel-background()`, `gel-fill-background()`, `gel-shimmer-layer()`, `gel-backdrop-filter()`, `gel-range-track-neutral-background()`, `gel-neutral-tint()`, `gel-raised-shadow()`, `gel-panel-shadow()`, `gel-fill-shine-shadow()`, `gel-focus-outline()`, `gel-toggle-wrapper()`, `gel-toggle-hidden-input()`, `gel-toggle-box()`, `gel-toggle-checked-tint()`
 4. `.gel, .gel-surface` — shared material layer (backdrop-filter, spring physics transform, specular opacity)
-5. `.gel` — button/interactive surface: full gradient stack, border, shadow, text
-6. `.gel-sm`, `.gel-lg` — size modifiers
-7. Named components: `.gel-input-wrapper`, `.gel-slider`, `.gel-range`, `.gel-progress`, `.gel-checkbox`, `.gel-radio`
-8. Color palette classes: `.gel-violet`, `.gel-ocean`, `.gel-moss`, `.gel-ruby`, `.gel-amber`
-9. Light mode override: `[data-theme="light"]` (lowers body alpha to `0.15`, adjusts borders/input body)
+5. `.gel` — reusable material: rounded-capsule shape, full gradient stack, border, raised shadow/glow, idle shimmer. No layout, cursor, or text styling
+6. `.gel-button` — interactive-button chrome layered on top of `.gel`: flex content-centering, padding, text styling, cursor, keyboard focus
+7. `.gel-sm`, `.gel-lg` — size modifiers (used with `.gel-button`)
+8. Named components: `.gel-input-wrapper`, `.gel-slider`, `.gel-range`, `.gel-progress`, `.gel-checkbox`, `.gel-radio`
+9. Color palette classes: `.gel-violet`, `.gel-ocean`, `.gel-moss`, `.gel-ruby`, `.gel-amber`
+10. Light mode override: `[data-theme="light"]` (lowers body alpha to `0.15`, adjusts borders/input body)
 
 **`src/gel.js`** — three exported classes:
 - `SpringValue` — single-axis Euler spring integrator used internally and exported
@@ -45,9 +46,9 @@ The gradient layers, backdrop filter, shadows, and toggle boilerplate are each d
 | Mixin | Layers | Used by |
 |---|---|---|
 | `gel-background($highlight-x, $highlight-y, $specular-opacity)` | specular + gloss + rim + body + border (all `padding-box`/`border-box`) | `.gel`, `.gel-input-wrapper`, track/panel/checkbox/radio surfaces, range thumb (with `--gel-thumb-*` args) |
-| `gel-fill-background($body-alpha, $body-alpha-mid)` | gloss + rim + body (no clips, no border) | `.gel-slider__fill`, `.gel-progress__fill` (default `0.55`/`0.80`). Paired with `gel-backdrop-filter()`. Body alpha is a fixed literal, not the `--gel-body-alpha` theme token — fills have no border ring or colored glow to anchor the hue the way buttons/thumb do, and sit over a flat neutral track instead of a rich scene, so they need bolder color of their own to read as progress rather than tinted white |
+| `gel-fill-background($body-alpha, $body-alpha-mid)` | gloss + rim + body (no clips, no border, no specular) | `.gel-slider__fill` only (default `0.55`/`0.80`, fixed literal not the `--gel-body-alpha` theme token). A slider fill sits directly beside its thumb, which is fully saturated and reads as "the real color" by proximity, so the fill itself can afford to be a paler tint |
 | `gel-shimmer-layer($dur, $delay)` | diagonal shimmer `::after` | `.gel::after`, fill `::after` |
-| `gel-backdrop-filter()` | `backdrop-filter`/`-webkit-backdrop-filter` blur+saturate+brightness | every gel surface |
+| `gel-backdrop-filter()` | `backdrop-filter`/`-webkit-backdrop-filter` blur+saturate+brightness | every gel surface, including fills |
 | `gel-range-track-neutral-background($body-alpha)` | same 4 layers as `gel-fill-background()` but with a literal (non-custom-property) body alpha | `.gel-range::-webkit-slider-runnable-track` only |
 | `gel-neutral-tint()` | achromatic `--gel-hue/saturation/lightness/body-top/body-bot/border-hue/border-sat` defaults | `.gel`, `.gel-slider__track`, `.gel-range`, `.gel-progress`, toggle boxes |
 | `gel-raised-shadow($glow-offset, $glow-blur)` | button-style inset + glow box-shadow | `.gel`, checkbox/radio boxes, range thumb (smaller glow args) |
@@ -81,10 +82,13 @@ Physics properties (`--gel-scale-x/y`, `--gel-highlight-x/y`, `--gel-specular-op
 
 Range thumb physics properties (`--gel-thumb-scale-x/y`, `--gel-thumb-highlight-x/y`, `--gel-thumb-specular-opacity`) are written by `initGelRange()` in `main.js`.
 
-### The `.gel` vs `.gel-surface` distinction
+### `.gel` vs `.gel-button` vs `.gel-surface`
 
-- `.gel` — full button treatment: gradient body, border, shadow, dark text, cursor pointer. Use for clickable elements.
-- `.gel-surface` — shared material only (backdrop-filter, specular, transform). Add to non-button interactive surfaces (input wrappers, checkbox/radio boxes) so `Gel.initAll()` picks them up with `keyboard: false`.
+- `.gel` — the material only: rounded-capsule shape, gradient body, border, raised shadow/glow, idle shimmer. No layout, cursor, or text styling — it's meant to be usable on *any* element, interactive or not (a button, a progress fill, a decorative capsule like the hero wordmark).
+- `.gel-button` — interactive-button chrome, layered on top with `class="gel gel-button"`: flex content-centering, padding, text color/shadow, `cursor: pointer`, `:focus-visible` ring. Use for actual clickable buttons/links.
+- `.gel-surface` — shared material only (backdrop-filter, specular, transform) *without* the full `gel-background()`/border/shadow stack `.gel` has. Add to non-button interactive surfaces (input wrappers, checkbox/radio boxes) so `Gel.initAll()` picks them up with `keyboard: false`; those components build their own visuals via mixins directly rather than the `.gel` class.
+
+A non-interactive material user (e.g. `.gel-progress__fill`) applies bare `.gel` and gets the full look without any button baggage to override. Don't add `.gel-button` to something that isn't genuinely clickable — its `cursor: pointer` and focus ring imply interactivity.
 
 ### The base `.gel` is neutral
 
@@ -119,7 +123,7 @@ The unchecked box uses `gel-toggle-box()`, which includes `gel-neutral-tint()` t
 
 ### Adding a new component
 
-1. Add its CSS in `gel.scss` using `@include gel-background()` for the background layers.
-2. Set the required CSS vars (`--gel-hue`, `--gel-saturation`, `--gel-border-hue`, `--gel-border-sat`) on the element before the `@include`.
-3. If interactive, add `.gel-surface` so `Gel.initAll()` picks it up.
+1. If it just needs the material look (no button semantics), apply the `.gel` class directly rather than re-including its mixins — see `.gel-progress__fill` for an example (`class="gel-progress__fill gel gel-violet"`). Otherwise, add its CSS in `gel.scss` using `@include gel-background()` for the background layers.
+2. Set the required CSS vars (`--gel-hue`, `--gel-saturation`, `--gel-border-hue`, `--gel-border-sat`) on the element before the `@include` (not needed if reusing `.gel` — it already sets neutral defaults via `gel-neutral-tint()`).
+3. If it's a real clickable button, add `.gel-button` alongside `.gel` for the layout/cursor/text chrome. If it's a non-button interactive surface (input wrapper, checkbox/radio box), add `.gel-surface` instead so `Gel.initAll()` picks it up with `keyboard: false`.
 4. Apply a palette class rather than inline custom vars.

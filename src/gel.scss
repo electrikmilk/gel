@@ -134,6 +134,12 @@
 // ring and colored glow shadow anchor the hue. Fills have neither anchor and sit over
 // a flat neutral track instead of a rich scene, so at ambient alpha they read as
 // barely-tinted white — a fill needs to carry its own color to be legible as progress.
+//
+// $body-alpha/$body-alpha-mid default to the slider fill's value. The progress fill
+// passes a bolder pair: a slider's fill sits directly beside its thumb, which is fully
+// saturated and reads as the "real" color by proximity, camouflaging a lighter fill.
+// A progress fill has no thumb to anchor against — it's judged in isolation against
+// the neutral remainder — so the same alpha that looks fine on a slider reads as pale.
 @mixin gel-fill-background($body-alpha: 0.55, $body-alpha-mid: 0.80) {
     background: linear-gradient(
             to bottom,
@@ -328,25 +334,22 @@
     --gel-specular-opacity: 1;
 }
 
-// ─── Gel link ───────────────────────────────────────────────────────────────
-
-a.gel {
-    font-weight: bold;
-}
-
-// ─── Gel button ───────────────────────────────────────────────────────────────
+// ─── Gel material ─────────────────────────────────────────────────────────────
+//
+// `.gel` is the reusable material only: tint tokens, the rounded-capsule shape,
+// the 5-layer gradient background, border, raised shadow/glow, and the idle
+// shimmer. Roundedness is inherent — the rim catch-light and border technique
+// both assume a capsule, so it isn't a "shape choice" a caller opts into. No
+// layout, no cursor, no text styling — those are interactive-button concerns,
+// added by `.gel-button` below. Anything that just wants the gel look (a
+// progress fill, a decorative capsule) can use `.gel` alone.
 
 .gel {
     // Tint tokens — override via palette class or inline style.
     // Base is neutral/clear; palette classes inject hue and saturation.
     @include gel-neutral-tint();
 
-    // Shape & layout
     position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.42rem 1.6rem;
     border-radius: 100vmax;
 
     @include gel-background();
@@ -355,14 +358,7 @@ a.gel {
 
     @include gel-raised-shadow();
 
-    color: rgba(0, 0, 0, 0.78);
-    font-family: inherit;
-    text-decoration: none;
-    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.55);
-
     transition: box-shadow 0.25s ease, filter 0.2s ease, --gel-specular-opacity 0.2s ease;
-    cursor: pointer;
-    user-select: none;
 
     &::after {
         @include gel-shimmer-layer(6s);
@@ -373,10 +369,6 @@ a.gel {
         inset 0 -1px 2px rgba(255, 255, 255, 0.22),
         0 8px 32px hsl(var(--gel-hue) var(--gel-saturation) 50% / 0.42),
         0 2px 8px rgba(0, 0, 0, 0.12);
-    }
-
-    &:focus-visible {
-        @include gel-focus-outline();
     }
 }
 
@@ -389,6 +381,34 @@ a.gel {
     }
     100% {
         opacity: 0;
+    }
+}
+
+// ─── Gel button ───────────────────────────────────────────────────────────────
+//
+// Interactive-button chrome, layered on top of `.gel`: shape, content-centering
+// layout, text styling, cursor, and keyboard focus. `class="gel gel-button"`.
+
+a.gel-button {
+    font-weight: bold;
+}
+
+.gel-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.42rem 1.6rem;
+
+    color: rgba(0, 0, 0, 0.78);
+    font-family: inherit;
+    text-decoration: none;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.55);
+
+    cursor: pointer;
+    user-select: none;
+
+    &:focus-visible {
+        @include gel-focus-outline();
     }
 }
 
@@ -633,12 +653,19 @@ a.gel {
     @include gel-panel-shadow();
 }
 
+// Uses the `.gel` material class directly (see "Gel material" above) instead of
+// gel-fill-background() — a progress fill has no thumb sitting beside it to anchor
+// its hue by proximity the way a slider fill does, so it needs the full border +
+// colored glow treatment to read as the same color as a button, not a paler tint
+// of it. Apply as `class="gel-progress__fill gel gel-<palette>"`.
 .gel-progress__fill {
     --gel-hue: 280;
     --gel-saturation: 75%;
     --gel-lightness: 88%;
     --gel-body-top: 92%;
     --gel-body-bot: 92%;
+    --gel-border-hue: var(--gel-hue);
+    --gel-border-sat: var(--gel-saturation);
 
     position: absolute;
     left: 0;
@@ -646,12 +673,6 @@ a.gel {
     bottom: 0;
     width: 65%;
     border-radius: 100vmax;
-
-    @include gel-backdrop-filter();
-
-    @include gel-fill-background();
-
-    @include gel-fill-shine-shadow(2px);
 
     transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 
@@ -819,3 +840,4 @@ a.gel {
 [data-theme="light"] .gel-range::-webkit-slider-runnable-track {
     @include gel-range-track-neutral-background(0.15);
 }
+
