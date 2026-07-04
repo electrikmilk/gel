@@ -318,6 +318,7 @@ class GelSlider {
     };
 
     #onThumbPointerMove = (event) => {
+        if (this.#isDisabled()) return;
         if (!this.#isDragging) return;
         this.#setValueFromClientX(event.clientX);
     };

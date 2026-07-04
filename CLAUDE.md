@@ -57,6 +57,7 @@ The gradient layers, backdrop filter, shadows, and toggle boilerplate are each d
 | `gel-focus-outline()` | `:focus-visible` ring | `.gel`, slider thumb, range thumb |
 | `gel-toggle-wrapper()` / `gel-toggle-hidden-input()` | label wrapper / visually-hidden input | `.gel-checkbox`, `.gel-radio` |
 | `gel-toggle-box()` / `gel-toggle-checked-tint()` | unchecked box material / checked `inherit` tint | checkbox/radio boxes (caller still sets `border-radius`) |
+| `gel-disabled-shadow()` | flattened inset + drop box-shadow, no colored glow | every `.gel-disabled` surface (button, input wrapper, checkbox/radio box, range track/thumb, slider track/thumb) |
 
 **Important:** Do not use `gel-background()` inside `::webkit-slider-runnable-track` — CSS custom properties set inside that pseudo-element bleed into `::webkit-slider-thumb` in WebKit. Use `gel-range-track-neutral-background()` there instead (the runnable track still uses `gel-backdrop-filter()` and `gel-panel-shadow()`, which aren't custom-property-driven).
 
@@ -127,3 +128,12 @@ The unchecked box uses `gel-toggle-box()`, which includes `gel-neutral-tint()` t
 2. Set the required CSS vars (`--gel-hue`, `--gel-saturation`, `--gel-border-hue`, `--gel-border-sat`) on the element before the `@include` (not needed if reusing `.gel` — it already sets neutral defaults via `gel-neutral-tint()`).
 3. If it's a real clickable button, add `.gel-button` alongside `.gel` for the layout/cursor/text chrome. If it's a non-button interactive surface (input wrapper, checkbox/radio box), add `.gel-surface` instead so `Gel.initAll()` picks it up with `keyboard: false`.
 4. Apply a palette class rather than inline custom vars.
+
+### Disabled state
+
+Add `.gel-disabled` alongside a component's existing classes to dim it (opacity `0.45`, flattened shadow via `gel-disabled-shadow()`, frozen shimmer). Two different mechanisms depending on the component:
+
+- **Native form controls** (`.gel-button`, `.gel-input-wrapper`, `.gel-checkbox`/`.gel-radio`, `.gel-range`) — `.gel-disabled` is visual-only; pair it with the native `disabled` attribute for real interaction blocking (focus, forms, screen readers). `.gel`/`.gel-surface` elements also get `pointer-events: none` from `.gel-disabled`, which stops `Gel.initAll()`'s hover/press physics and `:hover` matching with no `Gel` class changes — except `.gel-range`, which has no `.gel`/`.gel-surface` physics to stop, so it needs explicit `cursor`/`:hover` overrides instead (native `disabled` doesn't block `:hover`).
+- **Custom slider** (`.gel-slider`, `[data-gel-slider]`) — no native `disabled` concept. The outer `.gel-slider` wrapper stays hit-testable (`cursor: not-allowed`, no `pointer-events: none`) while the inner `.gel-slider__track`/`.gel-slider__thumb` get `pointer-events: none` (stops the thumb's own `Gel.initAll()` physics; hit-testing falls through to the wrapper so its cursor still shows). `GelSlider` in `gel.js` also syncs `tabindex`/`aria-disabled` on the root via a `MutationObserver` watching the `class` attribute, and guards its pointerdown/pointermove/keydown handlers against `.gel-disabled`.
+
+See `docs/superpowers/specs/2026-07-04-disabled-state-design.md` for the full design rationale.

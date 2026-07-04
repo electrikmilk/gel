@@ -788,10 +788,6 @@ a.gel-button {
     pointer-events: none;
     @include gel-disabled-shadow();
 
-    &:hover {
-        @include gel-disabled-shadow();
-    }
-
     &::after {
         animation: none;
         opacity: 0;
@@ -813,9 +809,13 @@ a.gel-button {
 }
 
 // Native range: the browser handles interaction blocking via the `disabled`
-// attribute, so this is visual-only — no pointer-events needed.
+// attribute, so this is visual-only — no pointer-events needed. Native
+// `disabled` does not block `:hover` from matching (unlike `pointer-events:
+// none` on every other disabled surface), so the base hover-brightness and
+// pointer cursor need explicit overrides here.
 .gel-range.gel-disabled {
     opacity: 0.45;
+    cursor: default;
 
     &::-webkit-slider-runnable-track {
         @include gel-disabled-shadow();
@@ -823,6 +823,10 @@ a.gel-button {
 
     &::-webkit-slider-thumb {
         @include gel-disabled-shadow();
+    }
+
+    &:hover::-webkit-slider-thumb {
+        filter: none;
     }
 }
 
