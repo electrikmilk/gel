@@ -175,6 +175,7 @@ button {
     gap: 1.5rem;
     padding: 6rem 2rem 10rem;
     width: 100%;
+    box-sizing: border-box;
 }
 
 /* ── Hero ─────────────────────────────────────── */
