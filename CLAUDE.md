@@ -20,13 +20,14 @@ Gel is a CSS/JS component library for macOS Aqua-inspired gel UI elements. No fr
 
 **`src/gel.scss`** — all component styles (compiled to CSS by Vite via sass). Structure:
 1. `@property` declarations for animatable custom properties (`--gel-scale-x/y`, `--gel-highlight-x/y`, `--gel-specular-opacity`, `--gel-thumb-*`)
-2. SCSS mixins: `gel-background()`, `gel-fill-background()`, `gel-track-background()`, `gel-shimmer-layer()`
-3. `.gel, .gel-surface` — shared material layer (backdrop-filter, spring physics transform, specular opacity)
-4. `.gel` — button/interactive surface: full gradient stack, border, shadow, text
-5. `.gel-sm`, `.gel-lg` — size modifiers
-6. Named components: `.gel-input-wrapper`, `.gel-slider`, `.gel-range`, `.gel-progress`, `.gel-checkbox`, `.gel-radio`
-7. Color palette classes: `.gel-violet`, `.gel-ocean`, `.gel-moss`, `.gel-ruby`, `.gel-amber`
-8. Light mode override: `[data-theme="light"]`
+2. Theme tokens: `:root` sets `--gel-body-alpha`/`--gel-body-alpha-mid` (dark default)
+3. SCSS mixins: `gel-background()`, `gel-fill-background()`, `gel-shimmer-layer()`, `gel-backdrop-filter()`, `gel-range-track-neutral-background()`, `gel-neutral-tint()`, `gel-raised-shadow()`, `gel-panel-shadow()`, `gel-fill-shine-shadow()`, `gel-focus-outline()`, `gel-toggle-wrapper()`, `gel-toggle-hidden-input()`, `gel-toggle-box()`, `gel-toggle-checked-tint()`
+4. `.gel, .gel-surface` — shared material layer (backdrop-filter, spring physics transform, specular opacity)
+5. `.gel` — button/interactive surface: full gradient stack, border, shadow, text
+6. `.gel-sm`, `.gel-lg` — size modifiers
+7. Named components: `.gel-input-wrapper`, `.gel-slider`, `.gel-range`, `.gel-progress`, `.gel-checkbox`, `.gel-radio`
+8. Color palette classes: `.gel-violet`, `.gel-ocean`, `.gel-moss`, `.gel-ruby`, `.gel-amber`
+9. Light mode override: `[data-theme="light"]` (lowers body alpha to `0.15`, adjusts borders/input body)
 
 **`src/gel.js`** — three exported classes:
 - `SpringValue` — single-axis Euler spring integrator used internally and exported
@@ -39,16 +40,24 @@ Gel is a CSS/JS component library for macOS Aqua-inspired gel UI elements. No fr
 
 ### SCSS mixin system
 
-The gradient layers are defined once as mixins and `@include`d into each component, eliminating duplication:
+The gradient layers, backdrop filter, shadows, and toggle boilerplate are each defined once as mixins and `@include`d into every component, eliminating duplication:
 
 | Mixin | Layers | Used by |
 |---|---|---|
-| `gel-background()` | specular + gloss + rim + body + border (all `padding-box`/`border-box`) | `.gel`, `.gel-input-wrapper`, checkbox/radio boxes |
+| `gel-background($highlight-x, $highlight-y, $specular-opacity)` | specular + gloss + rim + body + border (all `padding-box`/`border-box`) | `.gel`, `.gel-input-wrapper`, track/panel/checkbox/radio surfaces, range thumb (with `--gel-thumb-*` args) |
 | `gel-fill-background()` | gloss + rim + body (no clips, no border) | `.gel-slider__fill`, `.gel-progress__fill` |
-| `gel-track-background()` | gloss + rim + body (no clips) | fallback for pseudo-element contexts |
 | `gel-shimmer-layer($dur, $delay)` | diagonal shimmer `::after` | `.gel::after`, fill `::after` |
+| `gel-backdrop-filter()` | `backdrop-filter`/`-webkit-backdrop-filter` blur+saturate+brightness | every gel surface |
+| `gel-range-track-neutral-background($body-alpha)` | same 4 layers as `gel-fill-background()` but with a literal (non-custom-property) body alpha | `.gel-range::-webkit-slider-runnable-track` only |
+| `gel-neutral-tint()` | achromatic `--gel-hue/saturation/lightness/body-top/body-bot/border-hue/border-sat` defaults | `.gel`, `.gel-slider__track`, `.gel-range`, `.gel-progress`, toggle boxes |
+| `gel-raised-shadow($glow-offset, $glow-blur)` | button-style inset + glow box-shadow | `.gel`, checkbox/radio boxes, range thumb (smaller glow args) |
+| `gel-panel-shadow()` | flat inset + drop box-shadow | `.gel-slider__track`, `.gel-progress`, native range track |
+| `gel-fill-shine-shadow($top-blur)` | subtle inset shine for fill bars | `.gel-slider__fill`, `.gel-progress__fill` |
+| `gel-focus-outline()` | `:focus-visible` ring | `.gel`, slider thumb, range thumb |
+| `gel-toggle-wrapper()` / `gel-toggle-hidden-input()` | label wrapper / visually-hidden input | `.gel-checkbox`, `.gel-radio` |
+| `gel-toggle-box()` / `gel-toggle-checked-tint()` | unchecked box material / checked `inherit` tint | checkbox/radio boxes (caller still sets `border-radius`) |
 
-**Important:** Do not use `gel-background()` inside `::webkit-slider-runnable-track` — CSS custom properties set inside that pseudo-element bleed into `::webkit-slider-thumb` in WebKit. Use hardcoded neutral values there instead.
+**Important:** Do not use `gel-background()` inside `::webkit-slider-runnable-track` — CSS custom properties set inside that pseudo-element bleed into `::webkit-slider-thumb` in WebKit. Use `gel-range-track-neutral-background()` there instead (the runnable track still uses `gel-backdrop-filter()` and `gel-panel-shadow()`, which aren't custom-property-driven).
 
 ### CSS variable system
 
@@ -61,8 +70,8 @@ All gradient colours are driven by custom properties on the element (via palette
 | `--gel-lightness` | `88%` | Body mid-stop lightness |
 | `--gel-body-top` | `92%` | Top body gradient stop |
 | `--gel-body-bot` | `92%` | Bottom body gradient stop |
-| `--gel-body-alpha` | `0.28` | Body edge opacity (frosted glass transparency) |
-| `--gel-body-alpha-mid` | `0.48` | Body centre opacity |
+| `--gel-body-alpha` | `0.25` dark / `0.15` light | Body edge opacity (frosted glass transparency) — theme token, not palette-driven, see below |
+| `--gel-body-alpha-mid` | `0.25` dark / `0.15` light | Body centre opacity — theme token, not palette-driven, see below |
 | `--gel-border-hue` | `var(--gel-hue)` | Border accent hue |
 | `--gel-border-sat` | `var(--gel-saturation)` | Border accent saturation |
 | `--gel-border-lightness-top` | `30%` | Border gradient top stop |
@@ -87,7 +96,7 @@ The 1px coloured border is `border: 1px solid transparent` with a `border-box` b
 
 ### Light/dark mode
 
-`data-theme="dark"` on `<html>` is the default. `main.js` switches it. CSS reads it via `[data-theme="light"]`. The library uses a single set of lightness/alpha tokens for both modes — the `backdrop-filter` naturally darkens or lightens the apparent surface based on the scene behind it. The only light mode override is a darker `border-top-color` for depth and slightly lighter input body values.
+`data-theme="dark"` on `<html>` is the default. `main.js` switches it. CSS reads it via `[data-theme="light"]`. The library uses a single set of lightness tokens for both modes — the `backdrop-filter` naturally darkens or lightens the apparent surface based on the scene behind it. `--gel-body-alpha`/`--gel-body-alpha-mid` are the one theme-driven exception: dark scenes need a more opaque body (`0.25`, set at `:root` in the "Theme tokens" section) to stay legible, light scenes read fine at `0.15` (overridden in `[data-theme="light"]`). Because custom properties inherit, no palette class or component needs to set these itself. The native range track can't read the custom property (WebKit bleed), so its light-mode alpha is set directly via `gel-range-track-neutral-background(0.15)`. Besides alpha, the only other light mode overrides are a darker `border-top-color` for depth and slightly lighter input body values.
 
 ### Gel range (`gel-range`)
 
@@ -106,7 +115,7 @@ A native `<input type="range">` with gel-styled thumb and track:
 
 ### Checkbox/radio checked state
 
-The unchecked box sets `--gel-hue: 0; --gel-saturation: 0%` directly on the element (neutral). The checked state rule uses `--gel-hue: inherit; --gel-saturation: inherit` to pull the tint from the parent palette class. Both states use `@include gel-background()` — no duplicated gradient code.
+The unchecked box uses `gel-toggle-box()`, which includes `gel-neutral-tint()` to set `--gel-hue: 0; --gel-saturation: 0%` (etc.) directly on the element. The checked state rule uses `gel-toggle-checked-tint()`, which sets `--gel-hue: inherit; --gel-saturation: inherit` (etc.) to pull the tint from the parent palette class. Both states end with `@include gel-background()` — no duplicated gradient code.
 
 ### Adding a new component
 
